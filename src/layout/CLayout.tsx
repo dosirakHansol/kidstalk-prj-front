@@ -13,12 +13,11 @@ const SLayout = styled.div`
 `;
 
 const SAntdLayout = styled(Layout)`
-  border-radius: 8px;
+  border-radius: 0px;
   overflow: hidden;
   width: calc(60% - 8px);
   max-width: calc(60% - 8px);
   height: 100%;
-
   @media (max-width: 600px) {
     width: 100%;
     max-width: 100%;
