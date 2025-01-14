@@ -1,7 +1,6 @@
-import { SignUp } from "./containers/SignUp";
 import { CLayout } from "./layouts/CLayout";
-import { LoginPage } from "./pages/LoginPage";
-import { SignUpPage } from "./pages/SignUp";
+
+import { SignUpPage } from "./pages/SignUpPage";
 
 function App() {
   return (
