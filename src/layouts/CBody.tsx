@@ -3,11 +3,12 @@ import styled from "styled-components";
 
 const contentStyle: React.CSSProperties = {
   textAlign: "center",
-  minHeight: 120,
+  minHeight: 100,
   lineHeight: "120px",
   color: "#fff",
-  backgroundColor: "#0958d9",
+
   overflowY: "scroll",
+  width: "100%",
 };
 
 type IBodyProps = {

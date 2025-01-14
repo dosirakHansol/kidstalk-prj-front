@@ -1,10 +1,13 @@
-import { CLayout } from "./layout/CLayout";
+import { SignUp } from "./containers/SignUp";
+import { CLayout } from "./layouts/CLayout";
+import { LoginPage } from "./pages/LoginPage";
+import { SignUpPage } from "./pages/SignUp";
 
 function App() {
   return (
     <>
       <CLayout>
-        <div>
+        {/* <div>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum
           consectetur blanditiis obcaecati, ipsam quo enim quaerat ipsa, minus
           eveniet dolor dicta molestias suscipit impedit voluptate eaque
@@ -118,7 +121,9 @@ function App() {
           repellat repellendus? Provident laboriosam adipisci iusto porro
           ducimus placeat incidunt odio facilis animi ut accusamus officia
           aperiam ipsam, et voluptatum eveniet repudiandae dolorem beatae odit.
-        </div>
+        </div> */}
+
+        <SignUpPage />
       </CLayout>
     </>
   );

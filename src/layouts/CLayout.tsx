@@ -4,7 +4,7 @@ import { CHeader } from "./CHeader";
 import { Layout } from "antd";
 import styled from "styled-components";
 const SLayout = styled.div`
-  background-color: #eee;
+  background-color: white;
   display: flex;
   width: 100%;
   height: 100vh;
