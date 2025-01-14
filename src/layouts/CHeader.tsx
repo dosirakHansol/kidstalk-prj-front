@@ -8,7 +8,7 @@ const headerStyle: React.CSSProperties = {
   height: 64,
   paddingInline: 48,
   lineHeight: "64px",
-  backgroundColor: "#f6edf3f8",
+  backgroundColor: "#D4E2D4",
   display: "flex",
   justifyContent: "center",
   padding: 0,

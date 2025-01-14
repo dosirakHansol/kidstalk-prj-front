@@ -6,8 +6,7 @@ const contentStyle: React.CSSProperties = {
   minHeight: 100,
   lineHeight: "120px",
   color: "#fff",
-
-  overflowY: "scroll",
+  // overflowY: "scroll",
   width: "100%",
 };
 

@@ -8,7 +8,7 @@ import {
 
 const footerStyle: React.CSSProperties = {
   color: "#fff",
-  backgroundColor: "yellowgreen",
+  backgroundColor: "#DBC4F0",
   width: "100%",
   textAlign: "center",
   display: "flex",

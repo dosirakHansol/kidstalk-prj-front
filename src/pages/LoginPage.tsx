@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Login } from "../containers/Login";
 const SLoginPage = styled.div`
-  background-color: #eee;
+  background-color: white;
   overflow: hidden;
   width: 100%;
   height: 100%;
