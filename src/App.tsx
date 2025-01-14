@@ -2,6 +2,7 @@ import { CLayout } from "./layouts/CLayout";
 import { LoginPage } from "./pages/LoginPage";
 import { CreateBoardPage } from "./pages/CreateBoardPage";
 import { SignUpPage } from "./pages/SignUpPage";
+import { HomePage } from "./pages/HomePage";
 
 function App() {
   return (
@@ -125,7 +126,8 @@ function App() {
 
         {/* <SignUpPage /> */}
         {/* <LoginPage /> */}
-        <CreateBoardPage />
+        {/* <CreateBoardPage /> */}
+        <HomePage />
       </CLayout>
     </>
   );
