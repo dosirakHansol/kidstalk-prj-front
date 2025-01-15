@@ -14,9 +14,6 @@ const footerStyle: React.CSSProperties = {
   display: "flex",
   justifyContent: "space-between",
 };
-const SIcon = styled.div`
-  width: 100%;
-`;
 
 const IconStyle: React.CSSProperties = {
   display: "inline-block",

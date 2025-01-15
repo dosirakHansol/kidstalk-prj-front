@@ -3,6 +3,7 @@ import { LoginPage } from "./pages/LoginPage";
 import { CreateBoardPage } from "./pages/CreateBoardPage";
 import { SignUpPage } from "./pages/SignUpPage";
 import { HomePage } from "./pages/HomePage";
+import { MyInfoPage } from "./pages/MyInfoPage";
 
 function App() {
   return (
@@ -127,7 +128,8 @@ function App() {
         {/* <SignUpPage /> */}
         {/* <LoginPage /> */}
         {/* <CreateBoardPage /> */}
-        <HomePage />
+        {/* <HomePage /> */}
+        <MyInfoPage />
       </CLayout>
     </>
   );

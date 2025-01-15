@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { BoardList } from "../containers/BoardList";
+
 const SHomePage = styled.div`
   background-color: white;
   overflow-y: scroll;
