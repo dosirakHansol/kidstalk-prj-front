@@ -9,10 +9,8 @@ const SLoginPage = styled.div`
 
 export default function LoginPage() {
   return (
-    <>
-      <SLoginPage>
-        <Login></Login>
-      </SLoginPage>
-    </>
+    <SLoginPage>
+      <Login></Login>
+    </SLoginPage>
   );
 }

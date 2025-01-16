@@ -9,10 +9,8 @@ const SHome = styled.div`
 `;
 export default function Home() {
   return (
-    <>
-      <SHome>
-        <BoardList></BoardList>
-      </SHome>
-    </>
+    <SHome>
+      <BoardList></BoardList>
+    </SHome>
   );
 }

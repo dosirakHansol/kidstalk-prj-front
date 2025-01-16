@@ -7,24 +7,22 @@ const SMyInfo = styled.div`
   /* background: linear-gradient(45deg, #e07b39, #fff); */
   background-color: #87a2ff;
   width: 100%;
-  height: 25vh;
+  height: 20vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
 `;
 
 const InfoForm = styled.div`
   display: flex;
-  padding: 45px 0px;
   align-items: center;
   justify-content: space-around;
-  /* background-color: crimson; */
 `;
 
 const InfoMain = styled.div`
   display: flex;
   width: 50%;
-  height: 100%;
+
   justify-content: start;
   align-items: center;
   & > * {
@@ -35,7 +33,7 @@ const InfoMain = styled.div`
 
 const SubInfoForm = styled.div`
   display: flex;
-  height: 100%;
+
   justify-content: space-around;
   align-items: center;
 `;

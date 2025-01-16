@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { Header } from "antd/es/layout/layout";
 import { Button } from "antd";
-
+import Link from "next/link";
+import { useRouter } from "next/router";
 const headerStyle: React.CSSProperties = {
   textAlign: "center",
   color: "#fff",
@@ -18,15 +19,32 @@ const HeaderItem = styled.div`
   color: #040408;
   width: 100%;
 `;
+
+const buttonStyle: React.CSSProperties = {
+  boxShadow: "none",
+};
 export const CHeader = () => {
+  const router = useRouter();
+  const { pathname } = router;
+
   return (
     <Header style={headerStyle}>
       <HeaderItem></HeaderItem>
       <HeaderItem>Logo</HeaderItem>
       <HeaderItem>
-        <Button color="cyan" variant="solid">
-          Log in
-        </Button>
+        {pathname === "/login" ? (
+          <Link href="/">
+            <Button color="danger" variant="solid" style={buttonStyle}>
+              Home
+            </Button>
+          </Link>
+        ) : (
+          <Link href="/login">
+            <Button color="cyan" variant="solid" style={buttonStyle}>
+              Log in
+            </Button>
+          </Link>
+        )}
       </HeaderItem>
     </Header>
   );

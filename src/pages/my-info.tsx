@@ -8,11 +8,11 @@ const SMyInfoPage = styled.div`
   width: 100%;
   height: 100%;
 `;
-export const MyInfoPage = () => {
+export default function MyInfoPage() {
   return (
     <SMyInfoPage>
       <MyInfo></MyInfo>
       <InfoList />
     </SMyInfoPage>
   );
-};
+}

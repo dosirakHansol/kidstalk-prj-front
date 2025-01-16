@@ -5,6 +5,7 @@ import {
   HeartOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import Link from "next/link";
 
 const footerStyle: React.CSSProperties = {
   color: "#fff",
@@ -22,11 +23,15 @@ const IconStyle: React.CSSProperties = {
 export const CFooter = () => {
   return (
     <Footer style={footerStyle}>
-      <HistoryOutlined style={IconStyle} />
-
-      <HeartOutlined style={IconStyle} />
-
-      <UserOutlined style={IconStyle} />
+      <Link href="/">
+        <HistoryOutlined style={IconStyle} />
+      </Link>
+      <Link href="/">
+        <HeartOutlined style={IconStyle} />
+      </Link>
+      <Link href="/my-info">
+        <UserOutlined style={IconStyle} />
+      </Link>
     </Footer>
   );
 };
