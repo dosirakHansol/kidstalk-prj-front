@@ -1,5 +1,6 @@
 import { Button, Typography, Form, Input, Flex } from "antd";
 import type { FormProps } from "antd";
+import Link from "next/link";
 import styled from "styled-components";
 type FieldType = {
   username?: string;
@@ -16,6 +17,11 @@ const SLogin = styled.div`
   width: 100%;
   padding: 30px;
 `;
+
+const buttonStyle: React.CSSProperties = {
+  display: "block",
+  width: "100%",
+};
 
 export const Login = () => {
   return (
@@ -44,10 +50,11 @@ export const Login = () => {
           <Input.Password />
         </Form.Item>
         <Flex vertical justify="center" align="center" gap={15}>
-          <Button color="cyan" variant="filled" block>
-            회원가입
-          </Button>
-
+          <Link href="/sign-up" style={buttonStyle}>
+            <Button color="cyan" variant="filled" block>
+              회원가입
+            </Button>
+          </Link>
           <Button
             color="primary"
             variant="filled"

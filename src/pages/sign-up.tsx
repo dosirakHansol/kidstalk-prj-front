@@ -7,10 +7,10 @@ const SSignUpPage = styled.div`
   height: 100%;
 `;
 
-export const SignUpPage = () => {
+export default function SignUpPage() {
   return (
     <SSignUpPage>
       <SignUp></SignUp>
     </SSignUpPage>
   );
-};
+}

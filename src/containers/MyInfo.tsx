@@ -1,30 +1,45 @@
 import styled from "styled-components";
 import { Button, Typography } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar, Space } from "antd";
+
 const SMyInfo = styled.div`
   /* background: linear-gradient(45deg, #e07b39, #fff); */
   background-color: #87a2ff;
   width: 100%;
-  height: 25vh;
+  height: 20vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
 `;
 
 const InfoForm = styled.div`
   display: flex;
-  padding: 10px 0px;
   align-items: center;
   justify-content: space-around;
-  /* background-color: crimson; */
+`;
+
+const InfoMain = styled.div`
+  display: flex;
+  width: 50%;
+
+  justify-content: start;
+  align-items: center;
+  & > * {
+    /* display: block; */
+    margin: 0px 5px;
+  }
 `;
 
 const SubInfoForm = styled.div`
   display: flex;
-  height: 100%;
+
   justify-content: space-around;
   align-items: center;
 `;
-const CountFrom = styled.div``;
+const CountFrom = styled.div`
+  width: 100%;
+`;
 const titleStyle: React.CSSProperties = {
   color: "#fff",
 };
@@ -41,9 +56,12 @@ export const MyInfo = () => {
   return (
     <SMyInfo>
       <InfoForm>
-        <Typography.Title style={titleStyle} level={4}>
-          givejeong 님
-        </Typography.Title>
+        <InfoMain>
+          <Avatar size="large" icon={<UserOutlined />} />
+          <Typography.Title style={titleStyle} level={4}>
+            givejeong 님
+          </Typography.Title>
+        </InfoMain>
         <Button color="purple" variant="filled">
           수정하기
         </Button>
