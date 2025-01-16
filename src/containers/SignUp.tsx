@@ -65,7 +65,11 @@ export const SignUp = () => {
         >
           <Select>
             {locations.map((location, index) => (
-              <Select.Option value={location.key}>
+              <Select.Option
+                key={location.key}
+                value={location.key}
+                className={index === 0 ? "selected" : ""}
+              >
                 {location.name}
               </Select.Option>
             ))}

@@ -125,11 +125,11 @@ function App() {
           aperiam ipsam, et voluptatum eveniet repudiandae dolorem beatae odit.
         </div> */}
 
-        {/* <SignUpPage /> */}
+        <SignUpPage />
         {/* <LoginPage /> */}
         {/* <CreateBoardPage /> */}
         {/* <HomePage /> */}
-        <MyInfoPage />
+        {/* <MyInfoPage /> */}
       </CLayout>
     </>
   );
