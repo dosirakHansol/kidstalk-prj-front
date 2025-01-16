@@ -28,7 +28,7 @@ export const InfoList = () => {
   return (
     <SInfoList>
       {menus.map((menu, index) => (
-        <Link href={menu.path} style={linkStyle}>
+        <Link href={menu.path} key={menu.path} style={linkStyle}>
           <Button key={menu.path} style={buttonStyle}>
             {menu.title}
           </Button>
