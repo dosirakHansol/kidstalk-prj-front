@@ -7,10 +7,12 @@ const SLoginPage = styled.div`
   height: 100%;
 `;
 
-export const LoginPage = () => {
+export default function LoginPage() {
   return (
-    <SLoginPage>
-      <Login></Login>
-    </SLoginPage>
+    <>
+      <SLoginPage>
+        <Login></Login>
+      </SLoginPage>
+    </>
   );
-};
+}

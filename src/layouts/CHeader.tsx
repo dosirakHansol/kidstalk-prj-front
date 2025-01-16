@@ -14,6 +14,7 @@ const headerStyle: React.CSSProperties = {
   padding: 0,
 };
 const HeaderItem = styled.div`
+  flex: 1;
   color: #040408;
   width: 100%;
 `;
