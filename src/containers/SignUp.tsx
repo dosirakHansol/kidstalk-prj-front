@@ -1,20 +1,6 @@
 import { Button, Typography, Form, Input, Flex, Select } from "antd";
-import { FormProps } from "antd";
-
+import { RegisterProps } from "../data/user";
 import styled from "styled-components";
-type FieldType = {
-  username?: string;
-  nickname?: string;
-  password?: string;
-  location?: string;
-};
-const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-  console.log("Success:", values);
-};
-
-const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
 
 const SForm = styled.div`
   width: 100%;
@@ -26,7 +12,8 @@ const locations = [
   { key: "deagu", name: "대구" },
   { key: "seoul", name: "서울" },
 ];
-export const SignUp = () => {
+
+export const SignUp = ({ onFinish, onFinishFailed }: RegisterProps) => {
   return (
     <SForm>
       <Typography.Title level={3}>Sign up</Typography.Title>
@@ -37,28 +24,28 @@ export const SignUp = () => {
         autoComplete="off"
         layout="vertical"
       >
-        <Form.Item<FieldType>
+        <Form.Item
           label="아이디"
-          name="username"
+          name="userId"
           rules={[{ required: true, message: "아이디를 입력해 주세요" }]}
         >
           <Input />
         </Form.Item>
-        <Form.Item<FieldType>
+        <Form.Item
           label="닉네임"
-          name="nickname"
+          name="name"
           rules={[{ required: true, message: "닉네임을 입력해 주세요" }]}
         >
           <Input />
         </Form.Item>
-        <Form.Item<FieldType>
+        <Form.Item
           label="비밀번호"
           name="password"
           rules={[{ required: true, message: "비밀번호를 입력해 주세요" }]}
         >
           <Input.Password />
         </Form.Item>
-        <Form.Item<FieldType>
+        <Form.Item
           name="location"
           label="지역"
           rules={[{ required: true, message: "지역을 선택해 주세요" }]}

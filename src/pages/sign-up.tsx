@@ -1,5 +1,10 @@
 import styled from "styled-components";
 import { SignUp } from "../containers/SignUp";
+import { IBasicUser } from "../data/user";
+import { FormProps } from "antd";
+import { useMutation } from "@tanstack/react-query";
+import { signUp } from "../api/user";
+
 const SSignUpPage = styled.div`
   background-color: white;
   overflow: hidden;
@@ -7,10 +12,27 @@ const SSignUpPage = styled.div`
   height: 100%;
 `;
 
+const onFinishFailed: FormProps["onFinishFailed"] = (errorInfo) => {
+  console.log("Failed:", errorInfo);
+};
+
 export default function SignUpPage() {
+  const mutation = useMutation<IBasicUser, Error, IBasicUser>({
+    mutationFn: signUp,
+    onSuccess: () => {
+      console.log("cockck");
+    },
+    onError: (error: any) => {
+      console.log("error", error);
+    },
+  });
+  const onFinish: FormProps["onFinish"] = (values: any) => {
+    mutation.mutate(values);
+  };
+
   return (
     <SSignUpPage>
-      <SignUp></SignUp>
+      <SignUp onFinish={onFinish} onFinishFailed={onFinishFailed}></SignUp>
     </SSignUpPage>
   );
 }
