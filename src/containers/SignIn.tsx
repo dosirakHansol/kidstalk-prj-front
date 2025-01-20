@@ -2,17 +2,7 @@ import { Button, Typography, Form, Input, Flex } from "antd";
 import type { FormProps } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
-type FieldType = {
-  username?: string;
-  password?: string;
-};
-const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-  console.log("Success:", values);
-};
 
-const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
 const SLogin = styled.div`
   width: 100%;
   padding: 30px;
@@ -23,7 +13,12 @@ const buttonStyle: React.CSSProperties = {
   width: "100%",
 };
 
-export const Login = () => {
+type FieldType = {
+  userId?: string;
+  password?: string;
+};
+
+export const Login = ({ onFinish, onFinishFailed }: any) => {
   return (
     <SLogin>
       <Typography.Title level={3}>Sign up</Typography.Title>
@@ -36,7 +31,7 @@ export const Login = () => {
       >
         <Form.Item<FieldType>
           label="아이디"
-          name="username"
+          name="userId"
           rules={[{ required: true, message: "아이디를 입력해 주세요" }]}
         >
           <Input />

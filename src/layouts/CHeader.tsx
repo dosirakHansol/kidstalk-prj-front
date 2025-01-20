@@ -39,7 +39,7 @@ export const CHeader = () => {
             </Button>
           </Link>
         ) : (
-          <Link href="/login">
+          <Link href="/sign-in">
             <Button color="cyan" variant="solid" style={buttonStyle}>
               Log in
             </Button>
