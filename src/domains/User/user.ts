@@ -3,6 +3,7 @@ export interface RegisterProps {
   name?: string;
   password?: string;
   location?: string;
+  isLoading: boolean;
   onFinish?: (values: any) => void;
   onFinishFailed?: (valuse: any) => void;
 }

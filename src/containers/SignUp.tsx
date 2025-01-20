@@ -1,5 +1,5 @@
 import { Button, Typography, Form, Input, Flex, Select } from "antd";
-import { RegisterProps } from "../data/user";
+import { RegisterProps } from "../domains/User/user";
 import styled from "styled-components";
 
 const SForm = styled.div`
@@ -13,11 +13,16 @@ const locations = [
   { key: "seoul", name: "서울" },
 ];
 
-export const SignUp = ({ onFinish, onFinishFailed }: RegisterProps) => {
+export const SignUp = ({
+  onFinish,
+  onFinishFailed,
+  isLoading,
+}: RegisterProps) => {
   return (
     <SForm>
       <Typography.Title level={3}>Sign up</Typography.Title>
       <Form
+        disabled={isLoading}
         name="basic"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
@@ -63,7 +68,13 @@ export const SignUp = ({ onFinish, onFinishFailed }: RegisterProps) => {
           </Select>
         </Form.Item>
         <Flex vertical justify="center" align="center" gap={15}>
-          <Button color="cyan" variant="filled" block htmlType="submit">
+          <Button
+            color="cyan"
+            variant="filled"
+            block
+            htmlType="submit"
+            disabled={isLoading}
+          >
             회원가입
           </Button>
         </Flex>

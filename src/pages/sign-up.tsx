@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { SignUp } from "../containers/SignUp";
 import { IBasicUser } from "../domains/User/user";
-import { FormProps } from "antd";
-import { useMutation } from "@tanstack/react-query";
+import { FormProps, message } from "antd";
+import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
 import { signUp } from "../api/user";
+import { useRouter } from "next/router";
+import { ResponseSuccess } from "../api/Response";
 
 const SSignUpPage = styled.div`
   background-color: white;
@@ -17,13 +19,24 @@ const onFinishFailed: FormProps["onFinishFailed"] = (errorInfo) => {
 };
 
 export default function SignUpPage() {
-  const mutation = useMutation<IBasicUser, Error, IBasicUser>({
+  const [messageApi, contextHolder] = message.useMessage();
+  const router = useRouter();
+  const mutation = useMutation<ResponseSuccess, Error, IBasicUser>({
     mutationFn: signUp,
-    onSuccess: () => {
-      console.log("cockck");
+    onSuccess: (data) => {
+      console.log(data);
+      messageApi.open({
+        type: "success",
+        content: data.message,
+        onClick: () => router.push("/login"),
+      });
     },
-    onError: (error: any) => {
-      console.log("error", error);
+    onError: (error: Error) => {
+      console.log(error.message);
+      messageApi.open({
+        type: "error",
+        content: error.message,
+      });
     },
   });
   const onFinish: FormProps["onFinish"] = (values: any) => {
@@ -32,7 +45,12 @@ export default function SignUpPage() {
 
   return (
     <SSignUpPage>
-      <SignUp onFinish={onFinish} onFinishFailed={onFinishFailed}></SignUp>
+      {contextHolder}
+      <SignUp
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        isLoading={mutation.isPending || mutation.isSuccess}
+      ></SignUp>
     </SSignUpPage>
   );
 }
