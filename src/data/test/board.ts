@@ -1,5 +1,5 @@
 import { fakerKO as faker } from "@faker-js/faker";
-import { Board } from "../board";
+import { Board } from "../../domains/Board/board";
 
 export function requestBoard(page: number): Board[] {
   const result = Array.from(

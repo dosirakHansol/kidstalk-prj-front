@@ -1,4 +1,9 @@
-import { IBoard } from "../interfaces/IBoard";
+export interface IBoard {
+  title: string;
+  content: string;
+  imagePath: string;
+  createdAt: string;
+}
 
 export class Board implements IBoard {
   title: string;

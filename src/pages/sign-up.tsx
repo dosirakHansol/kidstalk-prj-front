@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { SignUp } from "../containers/SignUp";
-import { IBasicUser } from "../data/user";
+import { IBasicUser } from "../domains/User/user";
 import { FormProps } from "antd";
 import { useMutation } from "@tanstack/react-query";
 import { signUp } from "../api/user";
