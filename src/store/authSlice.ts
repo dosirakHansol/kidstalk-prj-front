@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { resetAuthCookie } from "../api/cookies";
 
 export const authSlice = createSlice({
   name: "auth",
@@ -7,8 +8,12 @@ export const authSlice = createSlice({
     successAuth: (prevState) => {
       prevState.isSuccess = true;
     },
+    logoutAuth: (prevState) => {
+      prevState.isSuccess = false;
+      resetAuthCookie();
+    },
   },
 });
 
-export const { successAuth } = authSlice.actions;
+export const { successAuth, logoutAuth } = authSlice.actions;
 export default authSlice.reducer;

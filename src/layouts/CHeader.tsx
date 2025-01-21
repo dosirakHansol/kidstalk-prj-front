@@ -5,8 +5,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { isExistAccessCookie } from "../api/cookies";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { successAuth } from "../store/authSlice";
 const headerStyle: React.CSSProperties = {
   textAlign: "center",
   color: "#fff",
@@ -30,7 +31,13 @@ const buttonStyle: React.CSSProperties = {
 export const CHeader = () => {
   const router = useRouter();
   const { pathname } = router;
+  const dispatch = useDispatch();
   const isSuccess = useSelector((state: RootState) => state.auth.isSuccess);
+  useEffect(() => {
+    if (isExistAccessCookie()) {
+      dispatch(successAuth());
+    }
+  }, []);
   return (
     <Header style={headerStyle}>
       <HeaderItem></HeaderItem>

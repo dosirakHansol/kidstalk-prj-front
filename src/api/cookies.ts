@@ -1,4 +1,4 @@
-import { getCookie, setCookie } from "cookies-next/client";
+import { getCookie, setCookie, deleteCookie } from "cookies-next/client";
 
 const ACCESS_TOKEN_KEY = "kids_access";
 const REFRESH_TOKEN_KEY = "kids_refresh";
@@ -10,6 +10,10 @@ export const setAuthCookie = (accessToken: string, refreshToken: string) => {
 
 export const isExistAccessCookie = () => {
   const accessCookie = getCookie(ACCESS_TOKEN_KEY);
-  console.log("access", accessCookie);
   return accessCookie ? true : false;
+};
+
+export const resetAuthCookie = () => {
+  deleteCookie(ACCESS_TOKEN_KEY);
+  deleteCookie(REFRESH_TOKEN_KEY);
 };

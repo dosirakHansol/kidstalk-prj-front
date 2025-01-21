@@ -3,7 +3,7 @@ import { Card } from "antd";
 import { useEffect, useState } from "react";
 
 import { requestBoard } from "../data/test/board";
-import { Board } from "../data/board";
+import { Board } from "../domains/Board/board";
 const SBoardList = styled.div`
   width: 100%;
   height: 100%;
@@ -23,7 +23,6 @@ export const BoardList = () => {
   const [boards, setBoards] = useState<Board[]>([]);
 
   useEffect(() => {
-    console.log("sdafasd");
     const boardList = requestBoard(1);
     setBoards(boardList);
     console.log(boards);

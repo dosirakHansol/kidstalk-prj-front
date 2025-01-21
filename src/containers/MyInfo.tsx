@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Button, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Space } from "antd";
+import { useDispatch } from "react-redux";
 
 const SMyInfo = styled.div`
   /* background: linear-gradient(45deg, #e07b39, #fff); */
@@ -58,7 +59,7 @@ const countStyle: React.CSSProperties = {
   margin: 0,
 };
 
-export const MyInfo = () => {
+export const MyInfo = ({ onClickLogout }: any) => {
   return (
     <SMyInfo>
       <InfoForm>
@@ -69,7 +70,11 @@ export const MyInfo = () => {
           </Typography.Title>
         </InfoMain>
         <InfoButton>
-          <Button color="danger" variant="filled">
+          <Button
+            color="danger"
+            variant="filled"
+            onClick={(e) => onClickLogout(e)}
+          >
             Log out
           </Button>
           <Button color="purple" variant="filled">
