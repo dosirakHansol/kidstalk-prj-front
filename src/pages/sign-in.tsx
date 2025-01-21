@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 import { setAuthCookie } from "../api/cookies";
 
 import { setCookie } from "cookies-next/client";
+import { useDispatch } from "react-redux";
+import { successAuth } from "../store/authSlice";
 const SLoginPage = styled.div`
   background-color: white;
   overflow: hidden;
@@ -25,12 +27,15 @@ const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
 export default function SignInPage() {
   const router = useRouter();
   const [messageApi, contextHolder] = message.useMessage();
+
+  const dispatch = useDispatch();
+
   const mutation = useMutation({
     mutationFn: signIn,
     onSuccess: (data) => {
       console.log(data.data);
       setAuthCookie(data.data.accessToken, data.data.refreshToken);
-
+      dispatch(successAuth());
       router.push("/");
     },
     onError: (error: Error) => {

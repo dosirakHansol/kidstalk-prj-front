@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { isExistAccessCookie } from "../api/cookies";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 const headerStyle: React.CSSProperties = {
   textAlign: "center",
   color: "#fff",
@@ -25,10 +27,10 @@ const HeaderItem = styled.div`
 const buttonStyle: React.CSSProperties = {
   boxShadow: "none",
 };
-export const CHeader = ({ authData }: any) => {
+export const CHeader = () => {
   const router = useRouter();
   const { pathname } = router;
-
+  const isSuccess = useSelector((state: RootState) => state.auth.isSuccess);
   return (
     <Header style={headerStyle}>
       <HeaderItem></HeaderItem>
@@ -40,7 +42,7 @@ export const CHeader = ({ authData }: any) => {
               Home
             </Button>
           </Link>
-        ) : authData?.value ? (
+        ) : isSuccess ? (
           <Link href="/sign-in">
             <Button color="danger" variant="solid" style={buttonStyle}>
               Log out
