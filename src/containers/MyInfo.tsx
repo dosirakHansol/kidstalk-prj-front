@@ -31,6 +31,12 @@ const InfoMain = styled.div`
   }
 `;
 
+const InfoButton = styled.div`
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+`;
 const SubInfoForm = styled.div`
   display: flex;
 
@@ -62,9 +68,14 @@ export const MyInfo = () => {
             givejeong 님
           </Typography.Title>
         </InfoMain>
-        <Button color="purple" variant="filled">
-          수정하기
-        </Button>
+        <InfoButton>
+          <Button color="danger" variant="filled">
+            Log out
+          </Button>
+          <Button color="purple" variant="filled">
+            수정하기
+          </Button>
+        </InfoButton>
       </InfoForm>
       <SubInfoForm>
         <CountFrom>

@@ -42,18 +42,14 @@ export const CHeader = () => {
               Home
             </Button>
           </Link>
-        ) : isSuccess ? (
-          <Link href="/sign-in">
-            <Button color="danger" variant="solid" style={buttonStyle}>
-              Log out
-            </Button>
-          </Link>
         ) : (
-          <Link href="/sign-in">
-            <Button color="cyan" variant="solid" style={buttonStyle}>
-              Log in
-            </Button>
-          </Link>
+          !isSuccess && (
+            <Link href="/sign-in">
+              <Button color="cyan" variant="solid" style={buttonStyle}>
+                Log in
+              </Button>
+            </Link>
+          )
         )}
       </HeaderItem>
     </Header>
