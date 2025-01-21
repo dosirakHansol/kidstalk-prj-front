@@ -3,6 +3,8 @@ import { Header } from "antd/es/layout/layout";
 import { Button } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { isExistAccessCookie } from "../api/cookies";
 const headerStyle: React.CSSProperties = {
   textAlign: "center",
   color: "#fff",
@@ -23,7 +25,7 @@ const HeaderItem = styled.div`
 const buttonStyle: React.CSSProperties = {
   boxShadow: "none",
 };
-export const CHeader = () => {
+export const CHeader = ({ authData }: any) => {
   const router = useRouter();
   const { pathname } = router;
 
@@ -34,8 +36,14 @@ export const CHeader = () => {
       <HeaderItem>
         {pathname === "/login" ? (
           <Link href="/">
-            <Button color="danger" variant="solid" style={buttonStyle}>
+            <Button color="primary" variant="solid" style={buttonStyle}>
               Home
+            </Button>
+          </Link>
+        ) : authData?.value ? (
+          <Link href="/sign-in">
+            <Button color="danger" variant="solid" style={buttonStyle}>
+              Log out
             </Button>
           </Link>
         ) : (

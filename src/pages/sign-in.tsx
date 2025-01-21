@@ -5,6 +5,9 @@ import { signIn } from "../api/user";
 import { FormProps, message } from "antd";
 import { IUserLogin } from "../domains/User/user";
 import { useRouter } from "next/router";
+import { setAuthCookie } from "../api/cookies";
+
+import { setCookie } from "cookies-next/client";
 const SLoginPage = styled.div`
   background-color: white;
   overflow: hidden;
@@ -26,7 +29,9 @@ export default function SignInPage() {
     mutationFn: signIn,
     onSuccess: (data) => {
       console.log(data.data);
-      //router.push('/')
+      setAuthCookie(data.data.accessToken, data.data.refreshToken);
+
+      router.push("/");
     },
     onError: (error: Error) => {
       messageApi.open({
