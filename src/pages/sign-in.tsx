@@ -57,7 +57,11 @@ export default function SignInPage() {
   return (
     <SLoginPage>
       {contextHolder}
-      <Login onFinish={onFinish} onFinishFailed={onFinishFailed}></Login>
+      <Login
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        isLoading={mutation.isPending || mutation.isSuccess}
+      ></Login>
     </SLoginPage>
   );
 }

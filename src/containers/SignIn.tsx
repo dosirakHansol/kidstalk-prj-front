@@ -18,12 +18,13 @@ type FieldType = {
   password?: string;
 };
 
-export const Login = ({ onFinish, onFinishFailed }: any) => {
+export const Login = ({ onFinish, onFinishFailed, isLoading }: any) => {
   return (
     <SLogin>
-      <Typography.Title level={3}>Sign up</Typography.Title>
+      <Typography.Title level={3}>Sign in</Typography.Title>
       <Form
         name="basic"
+        disabled={isLoading}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"

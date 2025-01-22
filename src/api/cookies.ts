@@ -13,6 +13,10 @@ export const isExistAccessCookie = () => {
   return accessCookie ? true : false;
 };
 
+export const getAccessCookie = () => {
+  return getCookie(ACCESS_TOKEN_KEY);
+};
+
 export const resetAuthCookie = () => {
   deleteCookie(ACCESS_TOKEN_KEY);
   deleteCookie(REFRESH_TOKEN_KEY);

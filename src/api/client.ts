@@ -1,3 +1,4 @@
+import { getAccessCookie } from "./cookies";
 import { RequestMethod } from "./Request";
 
 const BASE_URL = "http://localhost:4040";
@@ -6,14 +7,16 @@ const useApi = () => {
   const fetchData = async (
     endpoint: string,
     method: RequestMethod,
-    auth: boolean,
     body?: any
   ) => {
+    const headers: any = {
+      "Content-Type": "application/json",
+    };
+    headers["authorization"] = `Bearer ${getAccessCookie()}`;
+
     const options: RequestInit = {
       method,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers,
     };
 
     if (body) {
@@ -24,6 +27,7 @@ const useApi = () => {
 
     if (!response.ok) {
       const errorBody = await response.json();
+      console.debug(errorBody);
       throw new Error(errorBody.message);
     }
 

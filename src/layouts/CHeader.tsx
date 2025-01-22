@@ -43,7 +43,7 @@ export const CHeader = () => {
       <HeaderItem></HeaderItem>
       <HeaderItem>Logo</HeaderItem>
       <HeaderItem>
-        {pathname === "/login" ? (
+        {pathname === "/sign-in" ? (
           <Link href="/">
             <Button color="primary" variant="solid" style={buttonStyle}>
               Home

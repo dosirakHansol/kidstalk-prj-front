@@ -29,7 +29,7 @@ export const CFooter = () => {
       <Link href="/board/create">
         <PlusCircleOutlined style={IconStyle} />
       </Link>
-      <Link href="/my-info">
+      <Link href="/member/info">
         <UserOutlined style={IconStyle} />
       </Link>
     </Footer>

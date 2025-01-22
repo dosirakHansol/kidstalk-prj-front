@@ -28,7 +28,7 @@ export default function SignUpPage() {
       messageApi.open({
         type: "success",
         content: data.message,
-        onClick: () => router.push("/login"),
+        onClose: () => router.push("/sign-in"),
       });
     },
     onError: (error: Error) => {
