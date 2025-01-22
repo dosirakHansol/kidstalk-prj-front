@@ -20,7 +20,7 @@ const buttonStyle: React.CSSProperties = {
   width: "100%",
 };
 const menus = [
-  { title: "토픽 만들기", path: "/" },
+  { title: "토픽 만들기", path: "/topic/create" },
   { title: "게시글 작성하기", path: "/board/create" },
   { title: "내가 가입한 토픽 보기", path: "/my-info" },
 ];

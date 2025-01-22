@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Footer } from "antd/es/layout/layout";
 import {
   HistoryOutlined,
-  HeartOutlined,
+  PlusCircleOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
@@ -26,8 +26,8 @@ export const CFooter = () => {
       <Link href="/">
         <HistoryOutlined style={IconStyle} />
       </Link>
-      <Link href="/">
-        <HeartOutlined style={IconStyle} />
+      <Link href="/board/create">
+        <PlusCircleOutlined style={IconStyle} />
       </Link>
       <Link href="/my-info">
         <UserOutlined style={IconStyle} />
