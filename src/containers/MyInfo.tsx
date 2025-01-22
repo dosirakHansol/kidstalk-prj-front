@@ -24,7 +24,7 @@ const InfoMain = styled.div`
   display: flex;
   width: 50%;
 
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   & > * {
     /* display: block; */
@@ -36,7 +36,10 @@ const InfoButton = styled.div`
   width: 50%;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
+  & > button {
+    margin: 0px 5px;
+  }
 `;
 const SubInfoForm = styled.div`
   display: flex;
@@ -70,15 +73,15 @@ export const MyInfo = ({ onClickLogout }: any) => {
           </Typography.Title>
         </InfoMain>
         <InfoButton>
+          <Button color="purple" variant="filled">
+            수정하기
+          </Button>
           <Button
             color="danger"
             variant="filled"
             onClick={(e) => onClickLogout(e)}
           >
-            Log out
-          </Button>
-          <Button color="purple" variant="filled">
-            수정하기
+            로그아웃
           </Button>
         </InfoButton>
       </InfoForm>

@@ -14,3 +14,8 @@ export interface IBasicUser {
   password?: string;
   location?: string;
 }
+
+export interface IUserLogin {
+  userId: string;
+  password: string;
+}
