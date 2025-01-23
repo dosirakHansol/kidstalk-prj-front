@@ -1,5 +1,14 @@
 import styled from "styled-components";
-import { Typography, Form, Input, Upload, Button, Select, message } from "antd";
+import {
+  Typography,
+  Form,
+  Input,
+  Upload,
+  Button,
+  Select,
+  message,
+  Space,
+} from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import type { DragEndEvent } from "@dnd-kit/core";
 import { DndContext, PointerSensor, useSensor } from "@dnd-kit/core";
@@ -12,6 +21,9 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
 import type { UploadFile, UploadProps } from "antd";
+import { useQuery } from "@tanstack/react-query";
+import { fetchTopic } from "../api/topic";
+import { ITopic } from "../domains/Topic/topic";
 
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
@@ -23,6 +35,16 @@ const SBoard = styled.div`
   width: 100%;
 
   padding: 30px;
+`;
+
+const SelectOptionForm = styled(Space)`
+  display: flex;
+  justify-content: space-between;
+  & label {
+  }
+  & span {
+    color: gray;
+  }
 `;
 
 interface DraggableUploadListItemProps {
@@ -72,6 +94,10 @@ const DraggableUploadListItem = ({
 };
 
 export const Board = () => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["topicKey"],
+    queryFn: fetchTopic,
+  });
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const sensor = useSensor(PointerSensor, {
@@ -125,19 +151,29 @@ export const Board = () => {
 
     return false; // false를 반환하여 기본 업로드 동작을 방지
   };
+  const onChangeSelect = (e: any) => {
+    console.log("select", e);
+  };
   return (
     <SBoard>
       <Typography.Title level={3}>글 쓰기</Typography.Title>
       <Form layout="vertical">
         <Form.Item label="토픽">
           <Select
-            placeholder="토픽"
+            placeholder="토픽을 선택해 주세요"
             style={{ flex: 1, textAlign: "left" }}
-            options={[
-              { value: "1", label: "Jack" },
-              { value: "4", label: "Lucy" },
-              { value: "6", label: "yiminghe" },
-            ]}
+            options={data?.data?.topics.map((topic: ITopic, index: any) => ({
+              value: topic.id,
+              label: topic.name,
+              label2: topic.description,
+            }))}
+            onSelect={onChangeSelect}
+            optionRender={(topic) => (
+              <SelectOptionForm key={topic.data.id}>
+                <label>{topic.data.label}</label>
+                <span>{topic.data.label2}</span>
+              </SelectOptionForm>
+            )}
           />
         </Form.Item>
         <Form.Item label="제목">
@@ -158,6 +194,7 @@ export const Board = () => {
             >
               <Upload
                 listType="picture-card"
+                multiple
                 customRequest={({ file, onSuccess, onError }: any) => {
                   handleBeforeUpload(file)
                     .then((path) => {
@@ -166,6 +203,7 @@ export const Board = () => {
                     })
                     .catch(onError);
                 }}
+                maxCount={5}
                 onChange={onChange}
                 fileList={fileList}
                 itemRender={(originNode, file) => (
