@@ -19,7 +19,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { UploadFile, UploadProps } from "antd";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTopic } from "../api/topic";
@@ -43,7 +43,7 @@ const SelectOptionForm = styled(Space)`
   & label {
   }
   & span {
-    color: gray;
+    color: #ddd;
   }
 `;
 
@@ -119,16 +119,19 @@ export const Board = () => {
     file: any;
   }) => {
     setFileList(info.fileList);
+    console.log("!!!!!!!      1");
     console.log("info", info);
+    console.log("useState", fileList);
+
     if (info.file.status === "done") {
       message.success(`${info.file.name} 파일 업로드 완료.`);
     } else if (info.file.status === "error") {
       message.error(`${info.file.name} 파일 업로드 실패.`);
     }
   };
-  const handleBeforeUpload = async (file: File) => {
+  const handleBeforeUpload = async (file: any) => {
     const formData = new FormData();
-
+    console.log("!!!!!!!      2");
     console.log("file", file);
     formData.append("file", file);
 
@@ -141,9 +144,10 @@ export const Board = () => {
       if (!response.ok) {
         throw new Error("파일 업로드에 실패했습니다.");
       }
-      // await response.text();
-      return await response.json();
-      // console.log(data);
+
+      const responseDto = await response.json();
+      const storedFilePath = responseDto.data.filePath;
+      console.log(file.uid);
     } catch (error) {
       console.log(error);
       message.error("파일 업로드 중 오류가 발생했습니다.");
@@ -151,9 +155,7 @@ export const Board = () => {
 
     return false; // false를 반환하여 기본 업로드 동작을 방지
   };
-  const onChangeSelect = (e: any) => {
-    console.log("select", e);
-  };
+
   return (
     <SBoard>
       <Typography.Title level={3}>글 쓰기</Typography.Title>
@@ -167,7 +169,6 @@ export const Board = () => {
               label: topic.name,
               label2: topic.description,
             }))}
-            onSelect={onChangeSelect}
             optionRender={(topic) => (
               <SelectOptionForm key={topic.data.id}>
                 <label>{topic.data.label}</label>
@@ -198,7 +199,6 @@ export const Board = () => {
                 customRequest={({ file, onSuccess, onError }: any) => {
                   handleBeforeUpload(file)
                     .then((path) => {
-                      console.log("path", path);
                       onSuccess(file);
                     })
                     .catch(onError);

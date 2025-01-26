@@ -4,6 +4,7 @@ const ACCESS_TOKEN_KEY = "kids_access";
 const REFRESH_TOKEN_KEY = "kids_refresh";
 
 export const setAuthCookie = (accessToken: string, refreshToken: string) => {
+  resetAuthCookie();
   setCookie(ACCESS_TOKEN_KEY, accessToken);
   setCookie(REFRESH_TOKEN_KEY, refreshToken);
 };
@@ -15,6 +16,10 @@ export const isExistAccessCookie = () => {
 
 export const getAccessCookie = () => {
   return getCookie(ACCESS_TOKEN_KEY);
+};
+
+export const getRefreshCookie = () => {
+  return getCookie(REFRESH_TOKEN_KEY);
 };
 
 export const resetAuthCookie = () => {
