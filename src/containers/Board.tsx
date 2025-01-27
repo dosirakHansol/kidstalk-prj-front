@@ -26,6 +26,7 @@ import { fetchTopic } from "../api/topic";
 import { ITopic } from "../domains/Topic/topic";
 import { requestBoard } from "../data/test/board";
 import { requestCreate } from "../api/board";
+import { useRouter } from "next/router";
 
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
@@ -101,10 +102,18 @@ export const Board = () => {
     queryFn: fetchTopic,
   });
 
+  const router = useRouter();
+  const [messageApi, contextHolder] = message.useMessage();
   const mutation = useMutation({
     mutationFn: requestCreate,
-    onSuccess: function (data) {
+    onSuccess: (data: any) => {
       console.log(data);
+      messageApi.open({
+        type: "success",
+        content: data.message,
+        duration: 1,
+        onClose: () => router.push("/"),
+      });
     },
     onError: function (error) {
       console.log(error);
@@ -207,6 +216,7 @@ export const Board = () => {
 
   return (
     <SBoard>
+      {contextHolder}
       <Typography.Title level={3}>글 쓰기</Typography.Title>
       <Form layout="vertical" onFinish={onClickCreate}>
         <Form.Item label="토픽" name="topicId">

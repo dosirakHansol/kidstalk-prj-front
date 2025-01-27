@@ -8,6 +8,7 @@ import {
 import { RequestMethod } from "./Request";
 import { ResponseSuccess } from "./Response";
 import { logoutAuth } from "../store/authSlice";
+import { logoutAction } from "../store/store";
 
 const BASE_URL = "http://localhost:4040";
 
@@ -64,8 +65,8 @@ const requestRefreshToken = async (headers: any) => {
   if (!response.ok) {
     const errorBody = await response.json();
     console.error(errorBody);
-    const dispatch = useDispatch();
-    dispatch(logoutAuth());
+
+    logoutAction();
     throw new Error("로그인 세션 만료");
   }
   const successCookie: ResponseSuccess = await response.json();

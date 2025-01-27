@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Card, Avatar } from "antd";
+import { Card, Avatar, Carousel } from "antd";
 import { useEffect, useState } from "react";
 import {
   CommentOutlined,
@@ -8,6 +8,8 @@ import {
 } from "@ant-design/icons";
 import { requestBoard } from "../data/test/board";
 import { Board } from "../domains/Board/board";
+import { useQuery } from "@tanstack/react-query";
+import { requestList } from "../api/board";
 const SBoardList = styled.div`
   width: 100%;
   height: 100%;
@@ -32,7 +34,7 @@ const BoardBody = styled.div`
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
-
+  text-align: left;
   margin-top: 10px;
 `;
 const BoardImageForm = styled.div`
@@ -50,7 +52,11 @@ const BoardImage = styled.img`
 `;
 export const BoardList = () => {
   const [boards, setBoards] = useState<Board[]>([]);
-
+  const [page, setPage] = useState(0);
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["boardList", page],
+    queryFn: () => requestList(page),
+  });
   useEffect(() => {
     const boardList = requestBoard(1);
 
@@ -61,6 +67,43 @@ export const BoardList = () => {
   return (
     <SBoardList>
       <Card>
+        {data?.data?.boards.map((board: any) => (
+          <Card
+            key={board.id}
+            actions={[
+              <LikeFilled key="like" />,
+              <CommentOutlined key="message" />,
+              <ShareAltOutlined key="share" />,
+            ]}
+          >
+            <BoardUserForm>
+              <BoardUserAvatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+              <BoardUserInfo>{board.member.name}</BoardUserInfo>
+              <BoardUserCreatedAt>1일전</BoardUserCreatedAt>
+            </BoardUserForm>
+
+            <BoardBody>{board.description}</BoardBody>
+            <BoardImageForm>
+              <Carousel draggable>
+                {board.fileList?.map((image: any) => (
+                  <BoardImage
+                    key={image.id}
+                    alt="example"
+                    src={
+                      "http://localhost:4040/" +
+                      image.filePath.replace(
+                        "/Users/kwonjeonghyeon/source-code/kids-talk-prj-back/uploads",
+                        ""
+                      )
+                    }
+                  />
+                ))}
+              </Carousel>
+            </BoardImageForm>
+          </Card>
+        ))}
+      </Card>
+      {/* <Card>
         {boards.map((board: Board, index: number) => (
           <Card
             key={index}
@@ -78,11 +121,13 @@ export const BoardList = () => {
 
             <BoardBody>{board.content}</BoardBody>
             <BoardImageForm>
-              <BoardImage alt="example" src={board.imagePath} />
+              <Carousel draggable>
+                <BoardImage alt="example" src={board.imagePath} />
+              </Carousel>
             </BoardImageForm>
           </Card>
         ))}
-      </Card>
+      </Card> */}
     </SBoardList>
   );
 };
