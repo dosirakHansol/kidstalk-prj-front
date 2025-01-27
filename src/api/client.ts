@@ -1,3 +1,4 @@
+import { useDispatch } from "react-redux";
 import {
   getAccessCookie,
   getRefreshCookie,
@@ -6,6 +7,7 @@ import {
 } from "./cookies";
 import { RequestMethod } from "./Request";
 import { ResponseSuccess } from "./Response";
+import { logoutAuth } from "../store/authSlice";
 
 const BASE_URL = "http://localhost:4040";
 
@@ -61,8 +63,10 @@ const requestRefreshToken = async (headers: any) => {
   const response = await fetch(`${BASE_URL}/member/refresh`, options);
   if (!response.ok) {
     const errorBody = await response.json();
-    resetAuthCookie();
-    throw new Error(errorBody.message);
+    console.error(errorBody);
+    const dispatch = useDispatch();
+    dispatch(logoutAuth());
+    throw new Error("로그인 세션 만료");
   }
   const successCookie: ResponseSuccess = await response.json();
   const { accessToken, refreshToken } = successCookie.data;

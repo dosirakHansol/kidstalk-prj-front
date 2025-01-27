@@ -21,9 +21,11 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useMemo, useState } from "react";
 import type { UploadFile, UploadProps } from "antd";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { fetchTopic } from "../api/topic";
 import { ITopic } from "../domains/Topic/topic";
+import { requestBoard } from "../data/test/board";
+import { requestCreate } from "../api/board";
 
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
@@ -98,8 +100,18 @@ export const Board = () => {
     queryKey: ["topicKey"],
     queryFn: fetchTopic,
   });
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
+  const mutation = useMutation({
+    mutationFn: requestCreate,
+    onSuccess: function (data) {
+      console.log(data);
+    },
+    onError: function (error) {
+      console.log(error);
+    },
+  });
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [stored, setStored] = useState<any>([]);
   const sensor = useSensor(PointerSensor, {
     activationConstraint: { distance: 10 },
   });
@@ -114,14 +126,15 @@ export const Board = () => {
     }
   };
 
+  const onRemoveFile = (e: any) => {
+    console.log(e);
+    setStored((prevs: any) => prevs.filter((prev: any) => prev.uid !== e.uid));
+  };
   const onChange: UploadProps["onChange"] = (info: {
     fileList: any;
     file: any;
   }) => {
     setFileList(info.fileList);
-    console.log("!!!!!!!      1");
-    console.log("info", info);
-    console.log("useState", fileList);
 
     if (info.file.status === "done") {
       message.success(`${info.file.name} 파일 업로드 완료.`);
@@ -131,8 +144,7 @@ export const Board = () => {
   };
   const handleBeforeUpload = async (file: any) => {
     const formData = new FormData();
-    console.log("!!!!!!!      2");
-    console.log("file", file);
+
     formData.append("file", file);
 
     try {
@@ -147,7 +159,13 @@ export const Board = () => {
 
       const responseDto = await response.json();
       const storedFilePath = responseDto.data.filePath;
-      console.log(file.uid);
+      console.log(storedFilePath);
+      setStored((prev: any) => [
+        ...prev,
+        { uid: file.uid, storedPath: storedFilePath },
+      ]);
+
+      console.log();
     } catch (error) {
       console.log(error);
       message.error("파일 업로드 중 오류가 발생했습니다.");
@@ -156,11 +174,42 @@ export const Board = () => {
     return false; // false를 반환하여 기본 업로드 동작을 방지
   };
 
+  const onClickCreate = (e: any) => {
+    const { topicId, boardTitle, boardContent } = e;
+
+    const storedFile = new Array();
+
+    for (let i = 0; i < fileList.length; i++) {
+      const successFile = fileList[i];
+      const storedPath = stored.find(
+        (st: any) => st.uid === successFile.uid
+      ).storedPath;
+      console.log(storedPath);
+      storedFile.push({
+        filePath: storedPath,
+        sort: i + 1,
+      });
+
+      // console.log("file", file);
+    }
+
+    const boardDto = {
+      topicId,
+      title: boardTitle,
+      description: boardContent,
+      fileList: storedFile,
+    };
+    mutation.mutate(boardDto);
+  };
+  useEffect(() => {
+    console.log(stored);
+  }, [stored]);
+
   return (
     <SBoard>
       <Typography.Title level={3}>글 쓰기</Typography.Title>
-      <Form layout="vertical">
-        <Form.Item label="토픽">
+      <Form layout="vertical" onFinish={onClickCreate}>
+        <Form.Item label="토픽" name="topicId">
           <Select
             placeholder="토픽을 선택해 주세요"
             style={{ flex: 1, textAlign: "left" }}
@@ -177,14 +226,15 @@ export const Board = () => {
             )}
           />
         </Form.Item>
-        <Form.Item label="제목">
+        <Form.Item label="제목" name="boardTitle">
           <Input />
         </Form.Item>
-        <Form.Item label="내용">
+        <Form.Item label="내용" name="boardContent">
           <Input.TextArea rows={4} />
         </Form.Item>
         <Form.Item
           label="첨부 이미지"
+          name="uploadList"
           valuePropName="fileList"
           getValueFromEvent={normFile}
         >
@@ -199,6 +249,7 @@ export const Board = () => {
                 customRequest={({ file, onSuccess, onError }: any) => {
                   handleBeforeUpload(file)
                     .then((path) => {
+                      console.log(path);
                       onSuccess(file);
                     })
                     .catch(onError);
@@ -206,6 +257,7 @@ export const Board = () => {
                 maxCount={5}
                 onChange={onChange}
                 fileList={fileList}
+                onRemove={onRemoveFile}
                 itemRender={(originNode, file) => (
                   <DraggableUploadListItem
                     originNode={originNode}

@@ -56,7 +56,7 @@ export const BoardList = () => {
 
     setBoards(boardList);
 
-    console.log(boards);
+    // console.log(boards);
   }, []);
   return (
     <SBoardList>
