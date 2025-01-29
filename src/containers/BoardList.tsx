@@ -10,9 +10,14 @@ import { requestBoard } from "../data/test/board";
 import { Board } from "../domains/Board/board";
 import { useQuery } from "@tanstack/react-query";
 import { requestList } from "../api/board";
+import Link from "next/link";
 const SBoardList = styled.div`
   width: 100%;
   height: 100%;
+  & a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 부모 요소의 색상 상속 */
+  }
 `;
 
 const BoardUserForm = styled.div`
@@ -50,6 +55,11 @@ const BoardImage = styled.img`
   width: 100%;
   object-fit: cover;
 `;
+
+const cardStyle: React.CSSProperties = {
+  marginBottom: "5px",
+};
+
 export const BoardList = () => {
   const [boards, setBoards] = useState<Board[]>([]);
   const [page, setPage] = useState(0);
@@ -69,37 +79,41 @@ export const BoardList = () => {
       <Card>
         {data?.data?.boards.map((board: any) => (
           <Card
+            style={cardStyle}
+            loading={isLoading}
             key={board.id}
             actions={[
-              <LikeFilled key="like" />,
-              <CommentOutlined key="message" />,
-              <ShareAltOutlined key="share" />,
+              <LikeFilled key={`like_${board.id}`} />,
+              <CommentOutlined key={`message_${board.id}`} />,
+              <ShareAltOutlined key={`share_${board.id}`} />,
             ]}
           >
-            <BoardUserForm>
-              <BoardUserAvatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-              <BoardUserInfo>{board.member.name}</BoardUserInfo>
-              <BoardUserCreatedAt>1일전</BoardUserCreatedAt>
-            </BoardUserForm>
+            <Link href={`/board/${board.id}`}>
+              <BoardUserForm>
+                <BoardUserAvatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                <BoardUserInfo>{board.member.name}</BoardUserInfo>
+                <BoardUserCreatedAt>1일전</BoardUserCreatedAt>
+              </BoardUserForm>
 
-            <BoardBody>{board.description}</BoardBody>
-            <BoardImageForm>
-              <Carousel draggable>
-                {board.fileList?.map((image: any) => (
-                  <BoardImage
-                    key={image.id}
-                    alt="example"
-                    src={
-                      "http://localhost:4040/" +
-                      image.filePath.replace(
-                        "/Users/kwonjeonghyeon/source-code/kids-talk-prj-back/uploads",
-                        ""
-                      )
-                    }
-                  />
-                ))}
-              </Carousel>
-            </BoardImageForm>
+              <BoardBody>{board.description}</BoardBody>
+              <BoardImageForm>
+                <Carousel draggable>
+                  {board.fileList?.map((image: any) => (
+                    <BoardImage
+                      key={image.id}
+                      alt="example"
+                      src={
+                        "http://localhost:4040/" +
+                        image.filePath.replace(
+                          "/Users/kwonjeonghyeon/source-code/kids-talk-prj-back/uploads",
+                          ""
+                        )
+                      }
+                    />
+                  ))}
+                </Carousel>
+              </BoardImageForm>
+            </Link>
           </Card>
         ))}
       </Card>

@@ -12,7 +12,7 @@ const documentStyle: React.CSSProperties = {
 const MyDocument = () => {
   return (
     <Html>
-      <Head />
+      <Head></Head>
       <body style={documentStyle}>
         <Main />
         <NextScript />
