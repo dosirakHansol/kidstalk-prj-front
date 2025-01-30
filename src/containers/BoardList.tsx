@@ -55,6 +55,14 @@ const BoardImage = styled.img`
   width: 100%;
   object-fit: cover;
 `;
+const LikesForm = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & > span {
+    margin-left: 5px;
+  }
+`;
 
 const cardStyle: React.CSSProperties = {
   marginBottom: "5px",
@@ -83,7 +91,10 @@ export const BoardList = () => {
             loading={isLoading}
             key={board.id}
             actions={[
-              <LikeFilled key={`like_${board.id}`} />,
+              <LikesForm>
+                <LikeFilled key={`like_${board.id}`} />
+                <span>{board.likesCount}</span>
+              </LikesForm>,
               <CommentOutlined key={`message_${board.id}`} />,
               <ShareAltOutlined key={`share_${board.id}`} />,
             ]}

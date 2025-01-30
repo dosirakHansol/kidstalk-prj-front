@@ -7,15 +7,14 @@ import { requestDetail } from "../api/board";
 
 const SBoardDetail = styled.div`
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   padding: 10px;
 `;
 
 const BoardForm = styled.div`
-  border-radius: 5px;
   height: 100%;
   background: #eee;
-  overflow: hidden;
+
   border: none;
   box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
 `;
@@ -31,6 +30,18 @@ const BoardContent = styled.div`
   color: black;
   border: none;
 `;
+
+const BoardText = styled.div``;
+const BoardFileForm = styled.div`
+  /* background-color: green; */
+  /* padding: 10px; */
+  display: flex;
+  flex-direction: column;
+`;
+const BoardFileImage = styled.img`
+  margin-top: 5px;
+  width: 100%;
+`;
 export default function BoardDetail() {
   const router = useRouter();
   const { id } = router.query;
@@ -42,15 +53,22 @@ export default function BoardDetail() {
   return (
     <SBoardDetail>
       <BoardForm>
-        <BoardTitle>제목</BoardTitle>
-
+        <BoardTitle>{data?.data.board.title}</BoardTitle>
         <BoardContent>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Est dolorem
-          laboriosam dolore voluptates, perspiciatis distinctio minima quibusdam
-          voluptatem necessitatibus placeat nemo, dolor sunt rerum vel vero
-          dicta aspernatur voluptatum blanditiis reiciendis quas quaerat
-          impedit, aperiam modi? Nihil aperiam temporibus quis aspernatur natus,
-          animi illum praesentium ab fugiat iure fugit laudantium.
+          <BoardText>{data?.data.board.description}</BoardText>
+          <BoardFileForm>
+            {data?.data.board.boardFile.map((file: any) => (
+              <BoardFileImage
+                src={
+                  "http://localhost:4040/" +
+                  file.filePath.replace(
+                    "/Users/kwonjeonghyeon/source-code/kids-talk-prj-back/uploads",
+                    ""
+                  )
+                }
+              />
+            ))}
+          </BoardFileForm>
         </BoardContent>
       </BoardForm>
     </SBoardDetail>
