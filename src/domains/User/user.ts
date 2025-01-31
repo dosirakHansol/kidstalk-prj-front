@@ -4,6 +4,7 @@ export interface RegisterProps {
   password?: string;
   location?: string;
   isLoading: boolean;
+  locations: any;
   onFinish?: (values: any) => void;
   onFinishFailed?: (valuse: any) => void;
 }

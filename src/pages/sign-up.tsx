@@ -2,10 +2,11 @@ import styled from "styled-components";
 import { SignUp } from "../containers/SignUp";
 import { IBasicUser } from "../domains/User/user";
 import { FormProps, message } from "antd";
-import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { signUp } from "../api/user";
 import { useRouter } from "next/router";
 import { ResponseSuccess } from "../api/Response";
+import { requestLocations } from "../api/location";
 
 const SSignUpPage = styled.div`
   background-color: white;
@@ -21,6 +22,14 @@ const onFinishFailed: FormProps["onFinishFailed"] = (errorInfo) => {
 export default function SignUpPage() {
   const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
+  const {
+    data: locations,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["locations"],
+    queryFn: requestLocations,
+  });
   const mutation = useMutation<ResponseSuccess, Error, IBasicUser>({
     mutationFn: signUp,
     onSuccess: (data) => {
@@ -50,6 +59,7 @@ export default function SignUpPage() {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         isLoading={mutation.isPending || mutation.isSuccess}
+        locations={locations}
       ></SignUp>
     </SSignUpPage>
   );

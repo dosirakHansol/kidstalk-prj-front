@@ -8,9 +8,10 @@ import {
 } from "@ant-design/icons";
 import { requestBoard } from "../data/test/board";
 import { Board } from "../domains/Board/board";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { requestList } from "../api/board";
 import Link from "next/link";
+import { requestLike } from "../api/like";
 const SBoardList = styled.div`
   width: 100%;
   height: 100%;
@@ -59,6 +60,9 @@ const LikesForm = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  &.on {
+    color: dodgerblue;
+  }
   & > span {
     margin-left: 5px;
   }
@@ -69,17 +73,25 @@ const cardStyle: React.CSSProperties = {
 };
 
 export const BoardList = () => {
-  const [boards, setBoards] = useState<Board[]>([]);
   const [page, setPage] = useState(0);
   const { data, error, isLoading } = useQuery({
     queryKey: ["boardList", page],
     queryFn: () => requestList(page),
   });
+  const mutation = useMutation({
+    mutationKey: ["boardLike"],
+    mutationFn: requestLike,
+  });
+
+  const onSubmitLiked = (isLiked: boolean, boardId: number) => {
+    console.log(isLiked);
+    mutation.mutate({
+      type: isLiked,
+      boardId: boardId,
+    });
+  };
+
   useEffect(() => {
-    const boardList = requestBoard(1);
-
-    setBoards(boardList);
-
     // console.log(boards);
   }, []);
   return (
@@ -91,7 +103,10 @@ export const BoardList = () => {
             loading={isLoading}
             key={board.id}
             actions={[
-              <LikesForm>
+              <LikesForm
+                className={board.isLiked ? "on" : ""}
+                onClick={() => onSubmitLiked(board.isLiked, board.id)}
+              >
                 <LikeFilled key={`like_${board.id}`} />
                 <span>{board.likesCount}</span>
               </LikesForm>,

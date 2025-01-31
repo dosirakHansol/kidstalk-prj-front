@@ -7,16 +7,11 @@ const SForm = styled.div`
   padding: 30px;
 `;
 
-const locations = [
-  { key: "jeju", name: "제주" },
-  { key: "deagu", name: "대구" },
-  { key: "seoul", name: "서울" },
-];
-
 export const SignUp = ({
   onFinish,
   onFinishFailed,
   isLoading,
+  locations,
 }: RegisterProps) => {
   return (
     <SForm>
@@ -56,15 +51,13 @@ export const SignUp = ({
           rules={[{ required: true, message: "지역을 선택해 주세요" }]}
         >
           <Select>
-            {locations.map((location, index) => (
-              <Select.Option
-                key={location.key}
-                value={location.key}
-                className={index === 0 ? "selected" : ""}
-              >
-                {location.name}
-              </Select.Option>
-            ))}
+            {locations?.data.locationList.map(
+              (location: any, index: number) => (
+                <Select.Option key={location} value={location}>
+                  {location}
+                </Select.Option>
+              )
+            )}
           </Select>
         </Form.Item>
         <Flex vertical justify="center" align="center" gap={15}>
