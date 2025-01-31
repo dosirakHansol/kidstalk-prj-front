@@ -113,13 +113,7 @@ export const BoardList = () => {
                     <BoardImage
                       key={image.id}
                       alt="example"
-                      src={
-                        "http://localhost:4040/" +
-                        image.filePath.replace(
-                          "/Users/kwonjeonghyeon/source-code/kids-talk-prj-back/uploads",
-                          ""
-                        )
-                      }
+                      src={"http://localhost:4040" + image.filePath}
                     />
                   ))}
                 </Carousel>

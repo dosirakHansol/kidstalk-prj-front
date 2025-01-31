@@ -35,13 +35,16 @@ const BoardText = styled.div``;
 const BoardFileForm = styled.div`
   /* background-color: green; */
   /* padding: 10px; */
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
 `;
 const BoardFileImage = styled.img`
-  margin-top: 5px;
+  margin-top: 10px;
   width: 100%;
 `;
+
+const CommentForm = styled.div``;
 export default function BoardDetail() {
   const router = useRouter();
   const { id } = router.query;
@@ -59,17 +62,13 @@ export default function BoardDetail() {
           <BoardFileForm>
             {data?.data.board.boardFile.map((file: any) => (
               <BoardFileImage
-                src={
-                  "http://localhost:4040/" +
-                  file.filePath.replace(
-                    "/Users/kwonjeonghyeon/source-code/kids-talk-prj-back/uploads",
-                    ""
-                  )
-                }
+                key={file.sort}
+                src={"http://localhost:4040/" + file.filePath}
               />
             ))}
           </BoardFileForm>
         </BoardContent>
+        <CommentForm></CommentForm>
       </BoardForm>
     </SBoardDetail>
   );
