@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Card } from "antd";
+import { Card, Carousel } from "antd";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import styled from "styled-components";
@@ -41,6 +41,7 @@ const BoardFileForm = styled.div`
 `;
 const BoardFileImage = styled.img`
   margin-top: 10px;
+  padding: 10px;
   width: 100%;
 `;
 
@@ -60,12 +61,14 @@ export default function BoardDetail() {
         <BoardContent>
           <BoardText>{data?.data.board.description}</BoardText>
           <BoardFileForm>
-            {data?.data.board.boardFile.map((file: any) => (
-              <BoardFileImage
-                key={file.sort}
-                src={"http://localhost:4040/" + file.filePath}
-              />
-            ))}
+            <Carousel draggable>
+              {data?.data.board.boardFile.map((file: any) => (
+                <BoardFileImage
+                  key={file.sort}
+                  src={"http://localhost:4040/" + file.filePath}
+                />
+              ))}
+            </Carousel>
           </BoardFileForm>
         </BoardContent>
         <CommentForm></CommentForm>

@@ -35,13 +35,18 @@ const BoardUserCreatedAt = styled.span`
   margin-left: 5px;
 `;
 
+const BoardTitle = styled.div`
+  text-align: left;
+  margin-top: 10px;
+  font-weight: 600;
+`;
 const BoardBody = styled.div`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
   text-align: left;
-  margin-top: 10px;
+  margin-top: 5px;
 `;
 const BoardImageForm = styled.div`
   margin: 10px 0px 0px 0px;
@@ -55,6 +60,7 @@ const BoardImage = styled.img`
   max-height: 400px;
   width: 100%;
   object-fit: cover;
+  padding: 5px;
 `;
 const LikesForm = styled.div`
   display: flex;
@@ -106,7 +112,8 @@ export const BoardList = () => {
           };
         });
       }
-      if (response.message === "게시글 좋아요 성공") {
+      //localhost:4040//kidstalk_d859e2ad-d8c1-4966-b988-3e0434ecbfa0_1738303308923.png
+      http: if (response.message === "게시글 좋아요 성공") {
         queryClient.setQueryData(["boardList", page], (prevData: any) => {
           return {
             ...prevData,
@@ -165,7 +172,7 @@ export const BoardList = () => {
                 <BoardUserInfo>{board.member.name}</BoardUserInfo>
                 <BoardUserCreatedAt>1일전</BoardUserCreatedAt>
               </BoardUserForm>
-
+              <BoardTitle>{board.title}</BoardTitle>
               <BoardBody>{board.description}</BoardBody>
               <BoardImageForm>
                 <Carousel draggable>
