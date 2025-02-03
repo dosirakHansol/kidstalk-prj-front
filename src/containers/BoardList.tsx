@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { requestBoard } from "../data/test/board";
 import { Board } from "../domains/Board/board";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { requestList } from "../api/board";
 import Link from "next/link";
 import { requestLike } from "../api/like";
@@ -74,6 +74,7 @@ const cardStyle: React.CSSProperties = {
 
 export const BoardList = () => {
   const [page, setPage] = useState(0);
+  const queryClient = useQueryClient();
   const { data, error, isLoading } = useQuery({
     queryKey: ["boardList", page],
     queryFn: () => requestList(page),
@@ -81,6 +82,50 @@ export const BoardList = () => {
   const mutation = useMutation({
     mutationKey: ["boardLike"],
     mutationFn: requestLike,
+    onSuccess: (response, request) => {
+      console.log(response);
+
+      console.log(request);
+
+      if (response.message === "게시글 좋아요 취소 성공") {
+        queryClient.setQueryData(["boardList", page], (prevData: any) => {
+          return {
+            ...prevData,
+            data: {
+              ...prevData,
+              boards: prevData.data.boards.map((prev: any) =>
+                prev.id === request.boardId
+                  ? {
+                      ...prev,
+                      isLiked: !prev.isLiked,
+                      likesCount: Number(prev.likesCount) - 1,
+                    }
+                  : prev
+              ),
+            },
+          };
+        });
+      }
+      if (response.message === "게시글 좋아요 성공") {
+        queryClient.setQueryData(["boardList", page], (prevData: any) => {
+          return {
+            ...prevData,
+            data: {
+              ...prevData,
+              boards: prevData.data.boards.map((prev: any) =>
+                prev.id === request.boardId
+                  ? {
+                      ...prev,
+                      isLiked: !prev.isLiked,
+                      likesCount: Number(prev.likesCount) + 1,
+                    }
+                  : prev
+              ),
+            },
+          };
+        });
+      }
+    },
   });
 
   const onSubmitLiked = (isLiked: boolean, boardId: number) => {
