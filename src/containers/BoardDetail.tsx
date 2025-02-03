@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Card, Carousel } from "antd";
+import { Card, Carousel, Image } from "antd";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import styled from "styled-components";
@@ -39,7 +39,7 @@ const BoardFileForm = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const BoardFileImage = styled.img`
+const BoardFileImage = styled(Image)`
   margin-top: 10px;
   padding: 10px;
   width: 100%;

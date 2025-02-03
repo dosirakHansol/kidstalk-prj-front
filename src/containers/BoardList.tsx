@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Card, Avatar, Carousel, Spin } from "antd";
+import { Card, Avatar, Carousel, Spin, Image } from "antd";
 import { useEffect, useState } from "react";
 import {
   CommentOutlined,
@@ -61,7 +61,7 @@ const BoardImageForm = styled.div`
   height: auto;
   padding: 5px;
 `;
-const BoardImage = styled.img`
+const BoardImage = styled(Image)`
   border-radius: 5px;
   min-height: 100px;
   max-height: 400px;
@@ -188,10 +188,6 @@ export const BoardList = () => {
     });
   };
 
-  useEffect(() => {
-    // console.log(boards);
-  }, []);
-
   return (
     <SBoardList>
       <Card>
@@ -222,18 +218,18 @@ export const BoardList = () => {
                   </BoardUserForm>
                   <BoardTitle>{board.title}</BoardTitle>
                   <BoardBody>{board.description}</BoardBody>
-                  <BoardImageForm>
-                    <Carousel draggable>
-                      {board.fileList?.map((image: any) => (
-                        <BoardImage
-                          key={image.id}
-                          alt="example"
-                          src={"http://localhost:4040" + image.filePath}
-                        />
-                      ))}
-                    </Carousel>
-                  </BoardImageForm>
                 </Link>
+                <BoardImageForm>
+                  <Carousel draggable>
+                    {board.fileList?.map((image: any) => (
+                      <BoardImage
+                        key={image.id}
+                        alt="example"
+                        src={"http://localhost:4040" + image.filePath}
+                      />
+                    ))}
+                  </Carousel>
+                </BoardImageForm>
               </Card>
             ))
           )
