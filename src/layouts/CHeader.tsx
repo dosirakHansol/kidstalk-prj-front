@@ -8,6 +8,7 @@ import { isExistAccessCookie } from "../api/cookies";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { successAuth } from "../store/authSlice";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 const headerStyle: React.CSSProperties = {
   textAlign: "center",
   color: "#fff",
@@ -19,6 +20,13 @@ const headerStyle: React.CSSProperties = {
   justifyContent: "center",
   padding: 0,
 };
+const ButtonForm = styled.div`
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+`;
 const HeaderItem = styled.div`
   flex: 1;
   color: #040408;
@@ -38,9 +46,19 @@ export const CHeader = () => {
       dispatch(successAuth());
     }
   }, []);
+
+  const onClickBack = () => {
+    router.push("/");
+  };
   return (
     <Header style={headerStyle}>
-      <HeaderItem></HeaderItem>
+      <HeaderItem>
+        <ButtonForm>
+          {router.pathname === "/board/[id]" && (
+            <ArrowLeftOutlined onClick={onClickBack} />
+          )}
+        </ButtonForm>
+      </HeaderItem>
       <HeaderItem>Logo</HeaderItem>
       <HeaderItem>
         {pathname === "/sign-in" ? (
