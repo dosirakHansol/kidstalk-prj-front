@@ -1,17 +1,24 @@
 import styled from "styled-components";
-import { Card, Avatar, Carousel } from "antd";
+import { Card, Avatar, Carousel, Spin } from "antd";
 import { useEffect, useState } from "react";
 import {
   CommentOutlined,
   ShareAltOutlined,
   LikeFilled,
+  LoadingOutlined,
 } from "@ant-design/icons";
 import { requestBoard } from "../data/test/board";
 import { Board } from "../domains/Board/board";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { requestList } from "../api/board";
 import Link from "next/link";
 import { requestLike } from "../api/like";
+import { useInView } from "react-intersection-observer";
 const SBoardList = styled.div`
   width: 100%;
   height: 100%;
@@ -81,10 +88,48 @@ const cardStyle: React.CSSProperties = {
 export const BoardList = () => {
   const [page, setPage] = useState(0);
   const queryClient = useQueryClient();
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["boardList", page],
-    queryFn: () => requestList(page),
+
+  // const { data, error, isLoading } = useQuery({
+  //   queryKey: ["boardList", page],
+  //   queryFn: () => requestList(page),
+  // });
+
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isLoading,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["magazineList", "magazines"],
+    queryFn: requestList,
+    initialPageParam: 0, // [[1,2,3,4,5],[6,7,8,9,10]] 2차원배열로 들어옴
+    //  백엔드에 마지막 글인경우, nextCursor가 -1로 나오도록 하기
+    getNextPageParam: (lastPage, pages) => {
+      // console.log(JSON.stringify(lastPage!.data.boards));
+
+      // console.log(pages);
+      return lastPage.data.boards.length === 0 ? undefined : pages.length;
+    },
+    staleTime: 60 * 1000, // fresh -> stale, 5분이라는 기준
+    gcTime: 300 * 1000,
   });
+
+  const { ref, inView } = useInView({
+    threshold: 0.9,
+    delay: 0.6,
+  });
+
+  useEffect(() => {
+    // 화면에 밑에 ref부분이 보이면
+    if (inView) {
+      !isFetching && hasNextPage && fetchNextPage();
+    }
+
+    console.log(data);
+  }, [inView, isFetching, hasNextPage, fetchNextPage]);
+
   const mutation = useMutation({
     mutationKey: ["boardLike"],
     mutationFn: requestLike,
@@ -112,8 +157,8 @@ export const BoardList = () => {
           };
         });
       }
-      //localhost:4040//kidstalk_d859e2ad-d8c1-4966-b988-3e0434ecbfa0_1738303308923.png
-      http: if (response.message === "게시글 좋아요 성공") {
+
+      if (response.message === "게시글 좋아요 성공") {
         queryClient.setQueryData(["boardList", page], (prevData: any) => {
           return {
             ...prevData,
@@ -146,74 +191,69 @@ export const BoardList = () => {
   useEffect(() => {
     // console.log(boards);
   }, []);
+
   return (
     <SBoardList>
       <Card>
-        {data?.data?.boards.map((board: any) => (
-          <Card
-            style={cardStyle}
-            loading={isLoading}
-            key={board.id}
-            actions={[
-              <LikesForm
-                className={board.isLiked ? "on" : ""}
-                onClick={() => onSubmitLiked(board.isLiked, board.id)}
+        {
+          data?.pages.map((group: any) =>
+            group.data.boards.map((board: any) => (
+              <Card
+                style={cardStyle}
+                loading={isLoading}
+                key={board.id}
+                actions={[
+                  <LikesForm
+                    className={board.isLiked ? "on" : ""}
+                    onClick={() => onSubmitLiked(board.isLiked, board.id)}
+                  >
+                    <LikeFilled key={`like_${board.id}`} />
+                    <span>{board.likesCount}</span>
+                  </LikesForm>,
+                  <CommentOutlined key={`message_${board.id}`} />,
+                  <ShareAltOutlined key={`share_${board.id}`} />,
+                ]}
               >
-                <LikeFilled key={`like_${board.id}`} />
-                <span>{board.likesCount}</span>
-              </LikesForm>,
-              <CommentOutlined key={`message_${board.id}`} />,
-              <ShareAltOutlined key={`share_${board.id}`} />,
-            ]}
-          >
-            <Link href={`/board/${board.id}`}>
-              <BoardUserForm>
-                <BoardUserAvatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                <BoardUserInfo>{board.member.name}</BoardUserInfo>
-                <BoardUserCreatedAt>1일전</BoardUserCreatedAt>
-              </BoardUserForm>
-              <BoardTitle>{board.title}</BoardTitle>
-              <BoardBody>{board.description}</BoardBody>
-              <BoardImageForm>
-                <Carousel draggable>
-                  {board.fileList?.map((image: any) => (
-                    <BoardImage
-                      key={image.id}
-                      alt="example"
-                      src={"http://localhost:4040" + image.filePath}
-                    />
-                  ))}
-                </Carousel>
-              </BoardImageForm>
-            </Link>
-          </Card>
-        ))}
-      </Card>
-      {/* <Card>
-        {boards.map((board: Board, index: number) => (
-          <Card
-            key={index}
-            actions={[
-              <LikeFilled key="like" />,
-              <CommentOutlined key="message" />,
-              <ShareAltOutlined key="share" />,
-            ]}
-          >
-            <BoardUserForm>
-              <BoardUserAvatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-              <BoardUserInfo>nickname</BoardUserInfo>
-              <BoardUserCreatedAt>1일전</BoardUserCreatedAt>
-            </BoardUserForm>
+                <Link href={`/board/${board.id}`}>
+                  <BoardUserForm>
+                    <BoardUserAvatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                    <BoardUserInfo>{board.member.name}</BoardUserInfo>
+                    <BoardUserCreatedAt>1일전</BoardUserCreatedAt>
+                  </BoardUserForm>
+                  <BoardTitle>{board.title}</BoardTitle>
+                  <BoardBody>{board.description}</BoardBody>
+                  <BoardImageForm>
+                    <Carousel draggable>
+                      {board.fileList?.map((image: any) => (
+                        <BoardImage
+                          key={image.id}
+                          alt="example"
+                          src={"http://localhost:4040" + image.filePath}
+                        />
+                      ))}
+                    </Carousel>
+                  </BoardImageForm>
+                </Link>
+              </Card>
+            ))
+          )
 
-            <BoardBody>{board.content}</BoardBody>
-            <BoardImageForm>
-              <Carousel draggable>
-                <BoardImage alt="example" src={board.imagePath} />
-              </Carousel>
-            </BoardImageForm>
-          </Card>
-        ))}
-      </Card> */}
+          // data?.boards.map((board: any) => (
+
+          // ))
+        }
+        {hasNextPage && (
+          <Spin
+            indicator={
+              <LoadingOutlined
+                ref={ref}
+                style={{ fontSize: 48, marginTop: 10 }}
+                spin
+              />
+            }
+          />
+        )}
+      </Card>
     </SBoardList>
   );
 };

@@ -7,18 +7,41 @@ const BASE_ENDPOINT = (path: string) => `/board${path}`;
 const CREATE = BASE_ENDPOINT("/create");
 const LIST = (page: number) => BASE_ENDPOINT(`?page=${page}`);
 const DETAIL = (id: number) => BASE_ENDPOINT(`/${id}`);
+const COUNT = BASE_ENDPOINT("/count/all");
 
 export const requestCreate = async (board: any): Promise<ResponseSuccess> => {
   const { fetchData } = useApi();
   return await fetchData(CREATE, RequestMethod.POST, board);
 };
 
-export const requestList = async (page: number): Promise<ResponseSuccess> => {
+export const requestList = async ({
+  pageParam,
+}: any): Promise<ResponseSuccess> => {
   const { fetchData } = useApi();
-  return await fetchData(LIST(page), RequestMethod.GET);
+  const boardCount = await fetchData(COUNT, RequestMethod.GET);
+  const boardList = await fetchData(LIST(pageParam), RequestMethod.GET);
+  console.log({
+    ...boardList,
+    data: {
+      ...boardList.data,
+      totalCount: boardCount.data.listCount,
+      currentPage: pageParam,
+      totalPage: Math.ceil(boardCount.data.listCount / 10),
+    },
+  });
+  return {
+    ...boardList,
+    data: {
+      ...boardList.data,
+      totalCount: boardCount.data.listCount,
+      currentPage: pageParam,
+      totalPage: Math.ceil(boardCount.data.listCount / 10),
+    },
+  };
 };
 
 export const requestDetail = async (id: number): Promise<ResponseSuccess> => {
   const { fetchData } = useApi();
+
   return await fetchData(DETAIL(id), RequestMethod.GET);
 };
