@@ -218,7 +218,11 @@ export const Board = () => {
     <SBoard>
       {contextHolder}
       <Typography.Title level={3}>글 쓰기</Typography.Title>
-      <Form layout="vertical" onFinish={onClickCreate}>
+      <Form
+        layout="vertical"
+        onFinish={onClickCreate}
+        disabled={mutation.isPending || mutation.isSuccess}
+      >
         <Form.Item label="토픽" name="topicId">
           <Select
             placeholder="토픽을 선택해 주세요"
