@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { Card, Carousel, Image } from "antd";
+import { Card, Carousel, Image, Avatar, Button, List } from "antd";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import styled from "styled-components";
+import { UserOutlined } from "@ant-design/icons";
 import { requestDetail } from "../api/board";
+import TextArea from "antd/es/input/TextArea";
 
 const SBoardDetail = styled.div`
   width: 100%;
@@ -47,7 +49,39 @@ const BoardFileImage = styled(Image)`
   width: 100%;
 `;
 
-const CommentForm = styled.div``;
+const CommentForm = styled.div`
+  /* background-color: dodgerblue; */
+  margin-top: 5px;
+`;
+
+const CommentInputForm = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & > *:nth-child(1) {
+    margin-right: 5px;
+  }
+`;
+
+const CommentList = styled.div`
+  text-align: left;
+`;
+
+const dataa = [
+  {
+    title: "Ant Design Title 1",
+  },
+  {
+    title: "Ant Design Title 2",
+  },
+  {
+    title: "Ant Design Title 3",
+  },
+  {
+    title: "Ant Design Title 4",
+  },
+];
+
 export default function BoardDetail() {
   const router = useRouter();
   const { id } = router.query;
@@ -75,6 +109,34 @@ export default function BoardDetail() {
         </BoardContent>
         <CommentForm></CommentForm>
       </BoardForm>
+      <CommentForm>
+        <CommentInputForm>
+          <Avatar shape="square" size="small" icon={<UserOutlined />} />
+          <TextArea rows={1} placeholder="댓글을 입력하세요" maxLength={6} />
+          <Button color="orange" type="primary" variant="solid">
+            등록
+          </Button>
+        </CommentInputForm>
+        <CommentList>
+          <List
+            itemLayout="horizontal"
+            dataSource={dataa}
+            renderItem={(item, index) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={
+                    <Avatar
+                      src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`}
+                    />
+                  }
+                  title={<a href="https://ant.design">{item.title}</a>}
+                  description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                />
+              </List.Item>
+            )}
+          />
+        </CommentList>
+      </CommentForm>
     </SBoardDetail>
   );
 }
