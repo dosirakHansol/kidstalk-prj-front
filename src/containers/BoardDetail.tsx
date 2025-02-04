@@ -31,7 +31,9 @@ const BoardContent = styled.div`
   border: none;
 `;
 
-const BoardText = styled.div``;
+const BoardText = styled.div`
+  white-space: pre-wrap;
+`;
 const BoardFileForm = styled.div`
   /* background-color: green; */
   /* padding: 10px; */
@@ -65,7 +67,7 @@ export default function BoardDetail() {
               {data?.data.board.boardFile.map((file: any) => (
                 <BoardFileImage
                   key={file.sort}
-                  src={"http://localhost:4040/" + file.filePath}
+                  src={"http://localhost:4040" + file.filePath}
                 />
               ))}
             </Carousel>
