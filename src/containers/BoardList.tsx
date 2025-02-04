@@ -204,7 +204,9 @@ export const BoardList = () => {
                   <LikeFilled key={`like_${board.id}`} />
                   <span>{board.likesCount}</span>
                 </LikesForm>,
-                <CommentOutlined key={`message_${board.id}`} />,
+                <Link href={`/board/${board.id}?type=comment`}>
+                  <CommentOutlined key={`message_${board.id}`} />
+                </Link>,
                 <ShareAltOutlined key={`share_${board.id}`} />,
               ]}
             >
@@ -231,6 +233,7 @@ export const BoardList = () => {
             </Card>
           ))
         )}
+
         {hasNextPage && (
           <Spin
             indicator={

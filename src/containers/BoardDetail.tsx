@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, Carousel, Image, Avatar, Button, List } from "antd";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { UserOutlined } from "@ant-design/icons";
 import { requestDetail } from "../api/board";
@@ -84,12 +84,21 @@ const dataa = [
 
 export default function BoardDetail() {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, type } = router.query;
+  console.log(JSON.stringify(router.query));
   const { data, error, isLoading } = useQuery({
     queryKey: ["boardDetail", id],
     queryFn: () => requestDetail(Number(id)),
     enabled: !!id,
   });
+
+  const commentRef: any = useRef();
+  useEffect(() => {
+    if (type === "comment") {
+      console.log("ㅇㅇㅇㅇ");
+      commentRef.current.focus();
+    }
+  }, [type]);
   return (
     <SBoardDetail>
       <BoardForm>
@@ -112,7 +121,12 @@ export default function BoardDetail() {
       <CommentForm>
         <CommentInputForm>
           <Avatar shape="square" size="small" icon={<UserOutlined />} />
-          <TextArea rows={1} placeholder="댓글을 입력하세요" maxLength={6} />
+          <TextArea
+            ref={commentRef}
+            rows={1}
+            placeholder="댓글을 입력하세요"
+            maxLength={6}
+          />
           <Button color="orange" type="primary" variant="solid">
             등록
           </Button>
