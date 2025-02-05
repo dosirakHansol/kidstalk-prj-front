@@ -20,15 +20,15 @@ export const requestList = async ({
   const { fetchData } = useApi();
   const boardCount = await fetchData(COUNT, RequestMethod.GET);
   const boardList = await fetchData(LIST(pageParam), RequestMethod.GET);
-  console.log({
-    ...boardList,
-    data: {
-      ...boardList.data,
-      totalCount: boardCount.data.listCount,
-      currentPage: pageParam,
-      totalPage: Math.ceil(boardCount.data.listCount / 10),
-    },
-  });
+  // console.log({
+  //   ...boardList,
+  //   data: {
+  //     ...boardList.data,
+  //     totalCount: boardCount.data.listCount,
+  //     currentPage: pageParam,
+  //     totalPage: Math.ceil(boardCount.data.listCount / 10),
+  //   },
+  // });
   return {
     ...boardList,
     data: {

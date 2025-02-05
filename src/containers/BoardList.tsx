@@ -1,18 +1,16 @@
 import styled from "styled-components";
 import { Card, Avatar, Carousel, Spin, Image } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   CommentOutlined,
   ShareAltOutlined,
   LikeFilled,
   LoadingOutlined,
 } from "@ant-design/icons";
-import { requestBoard } from "../data/test/board";
-import { Board } from "../domains/Board/board";
+
 import {
   useInfiniteQuery,
   useMutation,
-  useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
 import { requestList } from "../api/board";
@@ -89,14 +87,7 @@ const cardStyle: React.CSSProperties = {
 };
 
 export const BoardList = () => {
-  const [page, setPage] = useState(0);
   const queryClient = useQueryClient();
-
-  // const { data, error, isLoading } = useQuery({
-  //   queryKey: ["boardList", page],
-  //   queryFn: () => requestList(page),
-  // });
-
   const {
     data,
     fetchNextPage,
@@ -128,12 +119,13 @@ export const BoardList = () => {
     // 화면에 밑에 ref부분이 보이면
 
     if (inView) {
-      console.log("들어옴");
-      !isFetching && hasNextPage && fetchNextPage();
-    }
+      if (!isFetching && !isFetchingNextPage && hasNextPage) {
+        console.log("들어옴");
+      }
 
-    console.log(data);
-  }, [inView, isFetching, hasNextPage, fetchNextPage]);
+      !isFetching && !isFetchingNextPage && hasNextPage && fetchNextPage();
+    }
+  }, [inView, isFetching, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const mutation = useMutation({
     mutationKey: ["boardLike"],

@@ -85,7 +85,7 @@ const dataa = [
 export default function BoardDetail() {
   const router = useRouter();
   const { id, type } = router.query;
-  console.log(JSON.stringify(router.query));
+
   const { data, error, isLoading } = useQuery({
     queryKey: ["boardDetail", id],
     queryFn: () => requestDetail(Number(id)),
@@ -95,7 +95,6 @@ export default function BoardDetail() {
   const commentRef: any = useRef();
   useEffect(() => {
     if (type === "comment") {
-      console.log("ㅇㅇㅇㅇ");
       commentRef.current.focus();
     }
   }, [type]);

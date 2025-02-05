@@ -5,7 +5,7 @@ import { signIn } from "../api/user";
 import { FormProps, message } from "antd";
 import { IUserLogin } from "../domains/User/user";
 import { useRouter } from "next/router";
-import { isExistAccessCookie, setAuthCookie } from "../api/cookies";
+import { isExistAccessCookie, setAuthCookieAndUserInfo } from "../api/cookies";
 import { useDispatch } from "react-redux";
 import { successAuth } from "../store/authSlice";
 import { useEffect } from "react";
@@ -33,7 +33,13 @@ export default function SignInPage() {
     mutationFn: signIn,
     onSuccess: (data) => {
       console.log(data.data);
-      setAuthCookie(data.data.accessToken, data.data.refreshToken);
+      setAuthCookieAndUserInfo(
+        data.data.accessToken,
+        data.data.refreshToken,
+        data.data.usreNo,
+        data.data.userId,
+        data.data.userName
+      );
       dispatch(successAuth());
       router.push("/");
     },
