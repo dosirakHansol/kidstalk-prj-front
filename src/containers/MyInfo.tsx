@@ -3,10 +3,11 @@ import { Button, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Space } from "antd";
 import { useDispatch } from "react-redux";
+import { getUserInfoCookie } from "../api/cookies";
 
 const SMyInfo = styled.div`
-  /* background: linear-gradient(45deg, #e07b39, #fff); */
-  background-color: #87a2ff;
+  background: linear-gradient(45deg, #fb8638, #0dbb0d);
+  /* background-color: #87a2ff; */
   width: 100%;
   height: 20vh;
   display: flex;
@@ -62,14 +63,15 @@ const countStyle: React.CSSProperties = {
   margin: 0,
 };
 
-export const MyInfo = ({ onClickLogout }: any) => {
+export const MyInfo = ({ infoCountData, onClickLogout }: any) => {
+  const { userId } = getUserInfoCookie();
   return (
     <SMyInfo>
       <InfoForm>
         <InfoMain>
           <Avatar size="large" icon={<UserOutlined />} />
           <Typography.Title style={titleStyle} level={4}>
-            givejeong 님
+            {userId} 님
           </Typography.Title>
         </InfoMain>
         <InfoButton>
@@ -91,23 +93,23 @@ export const MyInfo = ({ onClickLogout }: any) => {
             게시글 수
           </Typography.Title>
           <Typography.Title level={4} style={countStyle}>
-            123
+            {infoCountData?.userBoardCount}
           </Typography.Title>
         </CountFrom>
         <CountFrom>
           <Typography.Title level={5} style={countTitleStyle}>
-            좋아요 글
+            좋아요 수
           </Typography.Title>
           <Typography.Title level={4} style={countStyle}>
-            123
+            {infoCountData?.userBoardLikeCount}
           </Typography.Title>
         </CountFrom>
         <CountFrom>
           <Typography.Title level={5} style={countTitleStyle}>
-            좋아요 토픽
+            댓글
           </Typography.Title>
           <Typography.Title level={4} style={countStyle}>
-            123
+            {infoCountData?.userCommentCount}
           </Typography.Title>
         </CountFrom>
       </SubInfoForm>

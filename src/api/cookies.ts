@@ -6,12 +6,6 @@ const KIDS_USER_PK = "kids_user_pk";
 const KIDS_USER_ID = "kids_user_id";
 const KIDS_USER_NAME = "kids_user_name";
 
-export const setAuthCookie = (accessToken: string, refreshToken: string) => {
-  resetAuthCookie();
-  setCookie(ACCESS_TOKEN_KEY, accessToken);
-  setCookie(REFRESH_TOKEN_KEY, refreshToken);
-};
-
 export const setAuthCookieAndUserInfo = (
   accessToken: string,
   refreshToken: string,

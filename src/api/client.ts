@@ -3,7 +3,7 @@ import {
   getAccessCookie,
   getRefreshCookie,
   resetAuthCookie,
-  setAuthCookie,
+  setAuthCookieAndUserInfo,
 } from "./cookies";
 import { RequestMethod } from "./Request";
 import { ResponseSuccess } from "./Response";
@@ -70,11 +70,10 @@ const requestRefreshToken = async (headers: any) => {
     throw new Error("로그인 세션 만료");
   }
   const successCookie: ResponseSuccess = await response.json();
-  const { accessToken, refreshToken } = successCookie.data;
+  const { accessToken, refreshToken, userNo, userId, userName } =
+    successCookie.data;
 
-  setAuthCookie(accessToken, refreshToken);
+  setAuthCookieAndUserInfo(accessToken, refreshToken, userNo, userId, userName);
 };
 
 export default useApi;
-
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0ZXN0MTIzNCIsIm5hbWUiOiJ0ZXN0MTIzNCIsImlkIjoxLCJpYXQiOjE3Mzc4OTQ4NTcsImV4cCI6MTczNzg5ODQ1N30.ViLaiuDSgNd2_FcNTrKVpd5M4-yd7byJyXuw_rnUj40
