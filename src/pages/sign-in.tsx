@@ -36,7 +36,7 @@ export default function SignInPage() {
       setAuthCookieAndUserInfo(
         data.data.accessToken,
         data.data.refreshToken,
-        data.data.usreNo,
+        data.data.userNo,
         data.data.userId,
         data.data.userName
       );

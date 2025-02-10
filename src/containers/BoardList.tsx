@@ -14,6 +14,7 @@ import { requestLike } from "../api/like";
 import { useInView } from "react-intersection-observer";
 import { produce } from "immer";
 import { CBoard } from "../components/CBoard";
+import { useRouter } from "next/router";
 
 const SBoardList = styled.div`
   width: 100%;
@@ -26,6 +27,9 @@ const SBoardList = styled.div`
 
 export const BoardList = () => {
   const queryClient = useQueryClient();
+
+  const router = useRouter();
+  const { writerId } = router.query;
   const {
     data,
     fetchNextPage,
@@ -34,8 +38,8 @@ export const BoardList = () => {
     isLoading,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["boardList"],
-    queryFn: requestList,
+    queryKey: ["boardList", writerId],
+    queryFn: (pageParam) => requestList(pageParam, writerId),
     initialPageParam: 0, // [[1,2,3,4,5],[6,7,8,9,10]] 2차원배열로 들어옴
     //  백엔드에 마지막 글인경우, nextCursor가 -1로 나오도록 하기
     getNextPageParam: (lastPage, pages) => {
@@ -70,7 +74,7 @@ export const BoardList = () => {
     mutationFn: requestLike,
     onSuccess: (response, request) => {
       if (response.message === "게시글 좋아요 취소 성공") {
-        queryClient.setQueryData(["boardList"], (prevData: any) => {
+        queryClient.setQueryData(["boardList", writerId], (prevData: any) => {
           return produce(prevData, (draft: any) => {
             draft.pages.map((group: any, groupIndex: any) => {
               group.data.boards.map((board: any, boardIndex: any) => {
@@ -85,7 +89,7 @@ export const BoardList = () => {
       }
 
       if (response.message === "게시글 좋아요 성공") {
-        queryClient.setQueryData(["boardList"], (prevData: any) => {
+        queryClient.setQueryData(["boardList", writerId], (prevData: any) => {
           queryClient.setQueryData(["boardList"], (prevData: any) => {
             return produce(prevData, (draft: any) => {
               draft.pages.map((group: any, groupIndex: any) => {
@@ -113,7 +117,7 @@ export const BoardList = () => {
 
   useEffect(() => {
     return () => {
-      queryClient.invalidateQueries<any>(["boardList"]);
+      queryClient.invalidateQueries<any>(["boardList", writerId]);
     };
   }, []);
 

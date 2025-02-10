@@ -4,6 +4,7 @@ import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Space } from "antd";
 import { useDispatch } from "react-redux";
 import { getUserInfoCookie } from "../api/cookies";
+import Link from "next/link";
 
 const SMyInfo = styled.div`
   background: linear-gradient(45deg, #fb8638, #0dbb0d);
@@ -64,7 +65,8 @@ const countStyle: React.CSSProperties = {
 };
 
 export const MyInfo = ({ infoCountData, onClickLogout }: any) => {
-  const { userId } = getUserInfoCookie();
+  const { userPk, userId } = getUserInfoCookie();
+
   return (
     <SMyInfo>
       <InfoForm>
@@ -89,12 +91,14 @@ export const MyInfo = ({ infoCountData, onClickLogout }: any) => {
       </InfoForm>
       <SubInfoForm>
         <CountFrom>
-          <Typography.Title level={5} style={countTitleStyle}>
-            게시글 수
-          </Typography.Title>
-          <Typography.Title level={4} style={countStyle}>
-            {infoCountData?.userBoardCount}
-          </Typography.Title>
+          <Link href={"/?writerId=" + userPk}>
+            <Typography.Title level={5} style={countTitleStyle}>
+              게시글 수
+            </Typography.Title>
+            <Typography.Title level={4} style={countStyle}>
+              {infoCountData?.userBoardCount}
+            </Typography.Title>
+          </Link>
         </CountFrom>
         <CountFrom>
           <Typography.Title level={5} style={countTitleStyle}>
