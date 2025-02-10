@@ -115,7 +115,6 @@ export default function BoardDetail() {
             </Carousel>
           </BoardFileForm>
         </BoardContent>
-        <CommentForm></CommentForm>
       </BoardForm>
       <CommentForm>
         <CommentInputForm>
