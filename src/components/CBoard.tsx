@@ -1,4 +1,4 @@
-import { Card, Avatar, Carousel, Image } from "antd";
+import { Card, Avatar, Carousel, Image, Button } from "antd";
 import styled from "styled-components";
 import Link from "next/link";
 import {
@@ -6,6 +6,7 @@ import {
   ShareAltOutlined,
   LikeFilled,
 } from "@ant-design/icons";
+import { getUserInfoCookie } from "../api/cookies";
 const BoardUserForm = styled.div`
   display: flex;
   align-items: center;
@@ -17,6 +18,9 @@ const BoardUserInfo = styled.div`
 const BoardUserCreatedAt = styled.span`
   display: block;
   color: #aaa;
+  margin-left: 5px;
+`;
+const BoardUserUpdate = styled.div`
   margin-left: 5px;
 `;
 
@@ -65,6 +69,7 @@ const cardStyle: React.CSSProperties = {
 };
 
 export const CBoard = ({ board, isLoading, onSubmitLiked }: any) => {
+  const { userPk } = getUserInfoCookie();
   return (
     <Card
       style={cardStyle}
@@ -89,6 +94,16 @@ export const CBoard = ({ board, isLoading, onSubmitLiked }: any) => {
           <BoardUserAvatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
           <BoardUserInfo>{board.member.name}</BoardUserInfo>
           <BoardUserCreatedAt>1일전</BoardUserCreatedAt>
+
+          {userPk && board.member.id === Number(userPk) && (
+            <BoardUserUpdate>
+              <Link href={"/board/edit?board_id=" + board.id}>
+                <Button color="orange" variant="filled">
+                  수정하기
+                </Button>
+              </Link>
+            </BoardUserUpdate>
+          )}
         </BoardUserForm>
         <BoardTitle>{board.title}</BoardTitle>
         <BoardBody>{board.description}</BoardBody>

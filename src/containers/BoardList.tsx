@@ -117,9 +117,16 @@ export const BoardList = () => {
 
   useEffect(() => {
     return () => {
+      console.log("언마운트");
       queryClient.invalidateQueries<any>(["boardList", writerId]);
     };
   }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     console.log("로케이션");
+  //     queryClient.invalidateQueries<any>(["boardList", writerId]);
+  //   };
+  // }, [router.query]);
 
   return (
     <SBoardList>

@@ -9,6 +9,7 @@ import { isExistAccessCookie, setAuthCookieAndUserInfo } from "../api/cookies";
 import { useDispatch } from "react-redux";
 import { successAuth } from "../store/authSlice";
 import { useEffect } from "react";
+import { ResponseSuccess } from "../api/Response";
 const SLoginPage = styled.div`
   background-color: white;
   overflow: hidden;
@@ -29,10 +30,10 @@ export default function SignInPage() {
 
   const dispatch = useDispatch();
 
-  const mutation = useMutation({
+  const mutation = useMutation<ResponseSuccess, Error, any>({
     mutationFn: signIn,
     onSuccess: (data) => {
-      console.log(data.data);
+      // console.log(data.data);
       setAuthCookieAndUserInfo(
         data.data.accessToken,
         data.data.refreshToken,
@@ -66,7 +67,8 @@ export default function SignInPage() {
       <Login
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        isLoading={mutation.isPending || mutation.isSuccess}
+        // isLoading={mutation.isPending || mutation.isSuccess}
+        isLoading={false}
       ></Login>
     </SLoginPage>
   );

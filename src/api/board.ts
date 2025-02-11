@@ -13,6 +13,8 @@ const DETAIL = (id: number) => BASE_ENDPOINT(`/${id}`);
 const COUNT = (writerId?: number) =>
   BASE_ENDPOINT(writerId ? `/count/all?writerId=${writerId}` : `/count/all`);
 
+const UPDATE = (boardId: number) => BASE_ENDPOINT(`/edit/${boardId}`);
+
 export const requestCreate = async (board: any): Promise<ResponseSuccess> => {
   const { fetchData } = useApi();
   return await fetchData(CREATE, RequestMethod.POST, board);
@@ -54,4 +56,13 @@ export const requestDetail = async (id: number): Promise<ResponseSuccess> => {
   const { fetchData } = useApi();
 
   return await fetchData(DETAIL(id), RequestMethod.GET);
+};
+
+export const updateBoard = async (
+  boardId: number,
+  body: any
+): Promise<ResponseSuccess> => {
+  const { fetchData } = useApi();
+  console.log(JSON.stringify(body));
+  return await fetchData(UPDATE(boardId), RequestMethod.PATCH, body);
 };
