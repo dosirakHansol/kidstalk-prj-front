@@ -43,11 +43,11 @@ const dataa = [
   },
 ];
 
-export const CommentList = () => {
+export const CommentList = ({ onChange, onSubmit, data, commentList }: any) => {
   const router = useRouter();
   const { type } = router.query;
   const commentRef: any = useRef();
-
+  console.log(commentList);
   useEffect(() => {
     if (type === "comment") {
       commentRef.current.focus();
@@ -65,33 +65,42 @@ export const CommentList = () => {
             ref={commentRef}
             rows={1}
             placeholder="댓글을 입력하세요"
-            maxLength={6}
+            // maxLength={6}
+            defaultValue={data}
+            onChange={onChange}
           />
         </CreateTextArea>
         <CreateSubmit>
-          <Button color="orange" type="primary" variant="solid">
+          <Button
+            color="orange"
+            type="primary"
+            variant="solid"
+            onClick={(e) => onSubmit(e)}
+          >
             등록
           </Button>
         </CreateSubmit>
       </CommentInputForm>
       <SCommentList>
-        <List
-          itemLayout="horizontal"
-          dataSource={dataa}
-          renderItem={(item, index) => (
-            <List.Item>
-              <List.Item.Meta
-                avatar={
-                  <Avatar
-                    src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`}
-                  />
-                }
-                title={<a href="https://ant.design">{item.title}</a>}
-                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-              />
-            </List.Item>
-          )}
-        />
+        {commentList && (
+          <List
+            itemLayout="horizontal"
+            dataSource={commentList}
+            renderItem={(item: any, index) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={
+                    <Avatar
+                      src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`}
+                    />
+                  }
+                  title={<a href="https://ant.design">익명</a>}
+                  description={item?.description}
+                />
+              </List.Item>
+            )}
+          />
+        )}
       </SCommentList>
     </CommentForm>
   );
